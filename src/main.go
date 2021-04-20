@@ -8,6 +8,7 @@ import (
 func main() {
 	// 参考url: https://go-tour-jp.appspot.com/basics/11
 	checkBasic()
+	checkFlowControl()
 }
 
 func checkBasic() {
@@ -28,4 +29,15 @@ func checkBasic() {
 	basics.TypeConversions()
 	// 7
 	basics.Constants()
+}
+
+func checkFlowControl() {
+	// 1
+	basics.For()
+	// 2
+	fmt.Println(basics.IfWithAShortStatement(3, 2, 10))
+	// 3
+	basics.Switch()
+	// 4
+	basics.Defer()
 }
