@@ -1,0 +1,2 @@
+# golang_tutorial
+golangを完全に理解するためのリポジトリ
