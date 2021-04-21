@@ -7,6 +7,7 @@ golangを完全に理解するためのリポジトリ
 - [公式ドキュメント](https://golang.org/doc/)
 - [標準パッケージ](https://golang.org/pkg/)
 - [golangパッケージ](https://pkg.go.dev/)
+- [goのロードマップ](https://github.com/Alikhll/golang-developer-roadmap/blob/master/i18n/ja-JP/ReadMe-ja-JP.md)
 ## 確認しておきたい内容
 - Variables・Interface・Type・Strcutの基礎知識
 - Defer
