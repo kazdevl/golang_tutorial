@@ -9,6 +9,7 @@ func main() {
 	// 参考url: https://go-tour-jp.appspot.com/basics/11
 	checkBasic()
 	checkFlowControl()
+	checkTypes()
 }
 
 func checkBasic() {
@@ -40,4 +41,13 @@ func checkFlowControl() {
 	basics.Switch()
 	// 4
 	basics.Defer()
+}
+
+func checkTypes() {
+	// 1
+	basics.Pointers()
+	// 2
+	basics.FunctionValue()
+	// 3
+	basics.FunctionClosures()
 }
