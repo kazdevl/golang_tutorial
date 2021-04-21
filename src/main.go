@@ -2,6 +2,7 @@ package main
 
 import (
 	"app/basics"
+	"app/concurrency"
 	"app/methods"
 	"fmt"
 )
@@ -57,4 +58,13 @@ func checkTypes() {
 func checkMethods() {
 	//1
 	methods.Methods()
+}
+
+func checkConcurrency() {
+	// 1
+	concurrency.GoRoutines()
+	// 2
+	concurrency.Channels()
+	// 3
+	concurrency.Select()
 }
