@@ -2,6 +2,7 @@ package main
 
 import (
 	"app/basics"
+	"app/methods"
 	"fmt"
 )
 
@@ -10,6 +11,7 @@ func main() {
 	checkBasic()
 	checkFlowControl()
 	checkTypes()
+	checkMethods()
 }
 
 func checkBasic() {
@@ -50,4 +52,9 @@ func checkTypes() {
 	basics.FunctionValue()
 	// 3
 	basics.FunctionClosures()
+}
+
+func checkMethods() {
+	//1
+	methods.Methods()
 }
