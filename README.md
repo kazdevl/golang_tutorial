@@ -10,6 +10,8 @@ golangを完全に理解するためのリポジトリ
 - [goのロードマップ](https://github.com/Alikhll/golang-developer-roadmap/blob/master/i18n/ja-JP/ReadMe-ja-JP.md)
 ## 確認しておきたい内容
 - Variables・Interface・Type・Strcutの基礎知識
+    - sturctのポインタ型の、フィールドへのアクセスに関して、struct.Fieldという形式でアクセス可能なのは、Goコンパイラが、利便性のために暗黙的変換を行っているためである。実際には、(*struct).Fieladと解釈される。
+    - 要確認: array・structは値型。Slice・Mapは参照型であることに注意
 - Defer
 - Pointer
 - Goroutines
