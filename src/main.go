@@ -13,6 +13,7 @@ func main() {
 	checkFlowControl()
 	checkTypes()
 	checkMethods()
+	checkConcurrency()
 }
 
 func checkBasic() {
@@ -58,6 +59,19 @@ func checkTypes() {
 func checkMethods() {
 	//1
 	methods.Methods()
+	// 2
+	methods.InterfaceImplementImplicity()
+	// 3
+	methods.Interface()
+	// 4
+	methods.InterfaceValuesWithNil()
+	// 5...error起こしているので、コメントアウト
+	// methods.NilInterfaceValues()
+	// 6
+	methods.TypeAssertions()
+	// 7
+	methods.TypeSwitches()
+
 }
 
 func checkConcurrency() {
