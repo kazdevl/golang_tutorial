@@ -203,6 +203,10 @@ func TypeAssertions() {
 	// f = i.(float64): panic: interface conversion: interface {} is string, not float64というエラーが発生する
 }
 
+// 型switchの宣言は、型アサーション i.(T) と同じ構文を持ちますが、特定の型 T はキーワード type に置き換えられます。
+// このswitch文は、インターフェースの値 i が 型 T または S の値を保持するかどうかをテストします。
+// T および S の各caseにおいて、変数 v はそれぞれ 型 T または S であり、 i によって保持される値を保持します。
+// defaultの場合(一致するものがない場合)、変数 v は同じインターフェース型で値は i となります。
 func TypeSwitches() {
 	checkType("Hello")
 	checkType(100)
@@ -210,7 +214,7 @@ func TypeSwitches() {
 }
 
 func checkType(i interface{}) {
-	switch v := i.(type) {
+	switch v := i.(type) { //型アサーションにおけるキーワードtypeは型switchでのみしか利用できない
 	case int:
 		fmt.Printf("this type is int. twice %v is %v\n", v, v*2)
 	case string:
