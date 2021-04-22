@@ -219,3 +219,6 @@ func checkType(i interface{}) {
 		fmt.Printf("I don't know about type %T\n", v)
 	}
 }
+
+// errorのハンドリングにおける参考文献: https://h3poteto.hatenablog.com/entry/2015/12/13/010000
+// golangにおけるerrorハンドリングは、errorが戻り値として通常の値で帰ってきて、それを取り扱う形式である
