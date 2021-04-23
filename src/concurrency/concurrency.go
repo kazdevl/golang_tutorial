@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// Goのランタイムに管理される軽量なスレッド
+// goroutineは同じアドレス空間で実行されるので共有メモリへのアクセスは必ず同期させる必要がある
 func GoRoutines() {
 	oneThread := func(value string) {
 		for i := 0; i < 3; i++ {
@@ -17,6 +19,10 @@ func GoRoutines() {
 	fmt.Println("done")
 }
 
+// チャネル( Channel )型は、チャネルオペレータの <- を用いて値の送受信ができる通り道です。
+// データは矢印の方向に流れる
+// 通常、片方が準備できるまで送受信はブロックされます。これにより、明確なロックや条件変数がなくても、goroutineの同期を可能にします。
+// バッファが詰まった時は、チャネルへの送信をブロックします。 バッファが空の時には、チャネルの受信をブロックします。
 func Channels() {
 	bufferNum := 3
 	messages := make(chan string, bufferNum)
@@ -29,17 +35,61 @@ func Channels() {
 	}
 }
 
+func ChannelsForDecentralize() {
+	sum := func(s []int, c chan int) {
+		sum := 0
+		for _, v := range s {
+			sum += v
+		}
+		c <- sum
+	}
+	c := make(chan int)
+	data := []int{1, 2, 3, 4, 5, 6}
+	go sum(data[:len(data)/2], c)
+	go sum(data[len(data)/2:], c)
+	x, y := <-c, <-c
+	fmt.Printf("%d + %d = %d\n", x, y, x+y)
+}
+
+// 送り手は、これ以上の送信する値がないことを示すため、チャネルを close できます。
+// 受け手は、受信の式に2つ目のパラメータを割り当てることで、そのチャネルがcloseされているかどうかを確認できます
+// v, ok := <-ch
+// 受信する値がない、かつ、チャネルが閉じているなら、 ok の変数は、 false になります。
+// ※送り手のチャネルだけをcloseしてください。受け手はcloseしてはいけません。もしcloseしたチャネルへ送信すると、パニック( panic )します。
+// ※チャネルはファイルとは異なり、通常はcloseする必要はありません。closeするのはこれ以上値が来ないことを受け手が知る必要があるときにだけです。例えばrange ループを終了するという場合です。
+func RangeAndClose() {
+	fn := func(n int, c chan int) {
+		x, y := 0, 1
+		for i := 0; i < n; i++ {
+			c <- x
+			x, y = y, x+y
+		}
+		close(c)
+	}
+
+	c := make(chan int, 10)
+	fmt.Printf("関数実行前の容量: %d, 長さ: %d\n", cap(c), len(c))
+	go fn(cap(c), c)
+	fmt.Printf("関数実行後の容量: %d, 長さ: %d\n", cap(c), len(c))
+	for i := range c {
+		fmt.Println(i)
+	}
+}
+
+// select ステートメントは、goroutine(スレッド)を複数の通信操作で待たせます。
+// select は、複数ある case のいずれかが準備できるようになるまでブロックし、準備ができた case を実行します。 もし、複数の case の準備ができている場合、 case はランダムに選択されます
+// 参考文献: https://qiita.com/najeira/items/71a0bcd079c9066347b4,
 func Select() {
 	c1 := make(chan string)
 	c2 := make(chan string)
 
 	oneThread := func(sleeptime int, msg string, sending chan<- string) {
-		time.Sleep(2 * time.Second)
+		time.Sleep(time.Duration(sleeptime) * time.Second)
 		sending <- msg
 	}
 
-	go oneThread(2, "two second sleep", c2)
-	go oneThread(1, "one second sleep", c1)
+	go oneThread(5, "five second sleep", c2)
+	go oneThread(3, "three second sleep", c1)
 
 	for i := 0; i < 2; i++ {
 		select {
@@ -49,4 +99,29 @@ func Select() {
 			fmt.Println("received", msg2)
 		}
 	}
+
+	fibonachi := func(c, quit chan int) {
+		x, y := 0, 1
+		for {
+			select {
+			case c <- x:
+				x, y = y, x+y
+			case <-quit:
+				fmt.Println("quit")
+				return
+			default:
+				fmt.Println("c and quit are blocked")
+				// quit <- 0
+			}
+		}
+	}
+	c := make(chan int)
+	quit := make(chan int)
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-c)
+		}
+		quit <- 0
+	}()
+	fibonachi(c, quit)
 }
