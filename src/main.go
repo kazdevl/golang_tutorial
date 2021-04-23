@@ -9,10 +9,10 @@ import (
 
 func main() {
 	// 参考url: https://go-tour-jp.appspot.com/basics/11
-	checkBasic()
-	checkFlowControl()
-	checkTypes()
-	checkMethods()
+	// checkBasic()
+	// checkFlowControl()
+	// checkTypes()
+	// checkMethods()
 	checkConcurrency()
 }
 
@@ -80,5 +80,9 @@ func checkConcurrency() {
 	// 2
 	concurrency.Channels()
 	// 3
+	concurrency.ChannelsForDecentralize()
+	// 4
+	concurrency.RangeAndClose()
+	// 5
 	concurrency.Select()
 }
