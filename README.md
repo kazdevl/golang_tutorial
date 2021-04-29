@@ -72,11 +72,12 @@ golangを完全に理解するためのリポジトリ
         - 処理を試したい時に利用する
         - assertはなく、自分でエラーをカスタマイズして、動作を確認する
         - 成功時より、失敗の時が重要と考えているので、失敗時にたくさんの情報が出る
-        - 並列実行などもあるらしい：要確認
+        - 並列実行などもあるらしい： (参考文献)[https://engineering.mercari.com/blog/entry/how_to_use_t_parallel/]
         - helper関数などもあるらしい: 要確認
     - Benchmark
         - 処理がどのくらいのスピードなのか、やどのくらいのメモリ消費量で行われるかを確認できる
         - *testing.Bで実行可能
+        - 並列実行があるらしい: (参考文献)[https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64]
     - Subtest & Subbenchmark
         - testやbenchmarkを階層化できる...これで複数ケースでの動作確認がやりやすい
         - *testing.T.Run()や*testing.B.Run()を利用して実行する
