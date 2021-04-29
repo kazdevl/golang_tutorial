@@ -1,7 +1,7 @@
 package mock_test
 
 import (
-	"app/mock"
+	mock "app/test/manualmock"
 	"errors"
 	"testing"
 )

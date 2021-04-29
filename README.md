@@ -90,9 +90,22 @@ golangを完全に理解するためのリポジトリ
             - (参考文献2)[https://qiita.com/k5trismegistus/items/10ce381d29ab62ca0ea6#:~:text=%E3%82%B9%E3%82%BF%E3%83%96%E3%81%A8%E3%83%A2%E3%83%83%E3%82%AF%E3%81%AE%E6%9C%80%E5%A4%A7,%E3%81%84%E3%81%A3%E3%81%A6%E3%82%88%E3%81%84%E3%81%A7%E3%81%97%E3%82%87%E3%81%86%E3%80%82]
             - (参考文献3)[https://gotohayato.com/content/483/]
             - スタブとは、テストに必要だけどまだ実装出来ていないモジュールがある時に、そのモジュールの代わりにテストケースに沿った値を返してくれるオブジェクト
+    - mockgenとgomock
+        - mockgenは、インタフェースからmockを生成する
+        - gomockは、mockを取り扱うライブラリ(当然だが、testingとかもかなりライブラリ内で利用されている)
+        - (参考文献1)[https://pkg.go.dev/github.com/golang/mock/gomock#Controller]
+        - (参考文献2)[https://github.com/golang/mock]
+        - (参考文献3)[https://www.asobou.co.jp/blog/web/gomock]
+        - しっかりとソースコードを読み進める必要があるが、recoderの関数などを用いて設定した値をMockのメソッドで返している
     - APIサーバなどの、httpリクエスト関連のtest
+        - 開発時に要確認
+- go generator
+    - codeの自動生成ができるらしい
+    - mockgenを大量に行う必要があるときに、これを使うことでかなり楽にmockファイルも作れそう
 - GoDoc
+    - 開発時に要確認
 - GoCodeReview
+    - 開発時に要確認
 
 - 標準パッケージ
     - net
