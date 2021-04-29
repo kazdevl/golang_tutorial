@@ -23,12 +23,6 @@ func QuickSort(data []int) {
 		tmp := data[left]
 		data[left] = data[right]
 		data[right] = tmp
-
-		if data[right] == pivot {
-			left++
-		} else if data[left] == pivot {
-			right--
-		}
 	}
 
 	QuickSort(data[:left])
