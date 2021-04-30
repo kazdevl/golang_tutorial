@@ -101,9 +101,8 @@ golangを完全に理解するためのリポジトリ
     - APIサーバなどの、httpリクエスト関連のtest
         - 開発時に要確認
 - goのディレクトリの意味の理解する！
-    - test
-    - mock
-    - testdata
+    - 参考文献: https://future-architect.github.io/articles/20200528/
+    - testdata...コンパイルの対象外
 - go generator
     - codeの自動生成ができるらしい
     - mockgenを大量に行う必要があるときに、これを使うことでかなり楽にmockファイルも作れそう
