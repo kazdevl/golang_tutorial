@@ -1,8 +1,8 @@
 package formock_test
 
 import (
-	"app/formock"
 	mock_formock "app/mock"
+	"app/test/formock"
 	"testing"
 
 	"github.com/golang/mock/gomock"
