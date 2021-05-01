@@ -32,8 +32,10 @@ func checkAssendingOrder(data []int) bool {
 	return true
 }
 
+const TESTDATA_LENGTH = 100000
+
 func BenchmarkSorts(b *testing.B) {
-	var original_data []int = makeRandomOrderList(3000)
+	var original_data []int = makeRandomOrderList(TESTDATA_LENGTH)
 	sorts := []struct {
 		name     string
 		function func([]int)
@@ -63,6 +65,70 @@ func BenchmarkSorts(b *testing.B) {
 			b.Cleanup(func() {
 				b.Logf("%v is finished. result is %v\n", sort.name, checkAssendingOrder(data))
 			})
+		})
+	}
+}
+
+func TestSortsBySingle(t *testing.T) {
+	var original_data []int = makeRandomOrderList(TESTDATA_LENGTH)
+	sorts := []struct {
+		name     string
+		function func([]int)
+	}{
+		{
+			name:     "bubble sort",
+			function: sa.BubbleSort,
+		},
+		{
+			name:     "selection sort",
+			function: sa.SelectionSort,
+		},
+		{
+			name:     "quick sort",
+			function: sa.QuickSort,
+		},
+	}
+	for _, sort := range sorts {
+		data := make([]int, len(original_data))
+		copy(data, original_data)
+
+		t.Run(sort.name, func(t *testing.T) {
+			sort.function(data)
+			if !checkAssendingOrder(data) {
+				t.Errorf("sort algorithm(%s) is not perfect", sort.name)
+			}
+		})
+	}
+}
+
+func TestSortsByParallel(t *testing.T) {
+	var original_data []int = makeRandomOrderList(TESTDATA_LENGTH)
+	sorts := []struct {
+		name     string
+		function func([]int)
+	}{
+		{
+			name:     "bubble sort",
+			function: sa.BubbleSort,
+		},
+		{
+			name:     "selection sort",
+			function: sa.SelectionSort,
+		},
+		{
+			name:     "quick sort",
+			function: sa.QuickSort,
+		},
+	}
+	for _, sort := range sorts {
+		data := make([]int, len(original_data))
+		copy(data, original_data)
+		t.Run(sort.name, func(t *testing.T) {
+			t.Parallel()
+			sort.function(data)
+			if !checkAssendingOrder(data) {
+				t.Errorf("sort algorithm(%s) is not perfect", sort.name)
+			}
 		})
 	}
 }
