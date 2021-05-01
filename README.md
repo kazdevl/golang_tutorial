@@ -27,7 +27,7 @@ golangを完全に理解するためのリポジトリ
 - Goroutines: 深ぼっていく
     - ランタイムによって管理される軽量なスレッドのこと(厳密には違うらしい)
     - 並行処理と並列処理は別
-        - https://freak-da.hatenablog.com/entry/20100915/p1
+        - [参考文献](https://freak-da.hatenablog.com/entry/20100915/p1)
         - 並行処理(Concurrency)
             - 複数の動作が、論理的に、順不同もしくは同時に起こりうる
             - CPUが1コアの時に、複数タスクを細切れにしてあたかも同時に動いてるかのようにしている処理
@@ -44,8 +44,9 @@ golangを完全に理解するためのリポジトリ
     - goroutineに関しては並行処理
 - testing
     - _testというsufixをファイル名につけることで、go test時にしかコンパイルされなくなる
-        - https://engineering.mercari.com/blog/entry/2018-08-08-080000/
-        - https://future-architect.github.io/articles/20200601/
+        - [参考文献1](https://engineering.mercari.com/blog/entry/2018-08-08-080000/)
+        - [参考文献2](https://future-architect.github.io/articles/20200601/)
+        - [参考文献3](https://budougumi0617.github.io/2018/08/19/go-testing2018/)
         - mypkgと言うディレクトリにいる時でも、パッケージ名をmypkg_testとできて、別のパッケージとして扱える...従来、一つのディレクトリ内のコードは、1つのパッケージで構成されている必要がある
         - 非公開な変数や関数やタイプにアクセスしたい場合は、export_test.goと言うファイルで、mypkgと同じ、パッケージとして、非公開なものを公開する変数などを用意することで、テストで、ためしたい非公開なものにもアクセスできるし、export_test.goを挟むことで、公開範囲を適切に制限し、想定外の使われ方を省くことができる
     - testのデータなどは、testdataなどに入れるらしい...要確認
@@ -62,10 +63,11 @@ golangを完全に理解するためのリポジトリ
                 - ベンチマークの実行に必要
                 - 関数の実行回数(有効なデータが得られるまで実行される)と1回の実行にかかった時間
             - benchmem
-                - https://github.com/golang/tools/blob/master/benchmark/parse/parse.go#L28-L37
+                - [参考文献](https://github.com/golang/tools/blob/master/benchmark/parse/parse.go#L28-L37)
                 - メモリアロケートの回数が分かる
                 - 実行ごとに割り当てられたメモリのサイズと1回の実行でメモリアロケーションが行われた回数が把握できる
             - その他諸々
+                - [参考文献](https://deeeet.com/writing/2014/07/30/golang-parallel-by-cpu/)
              ```
                 -test.bench regexp
                     run only benchmarks matching regexp
@@ -123,12 +125,12 @@ golangを完全に理解するためのリポジトリ
         - 処理を試したい時に利用する
         - assertはなく、自分でエラーをカスタマイズして、動作を確認する
         - 成功時より、失敗の時が重要と考えているので、失敗時にたくさんの情報が出る
-        - 並列実行などもあるらしい： (参考文献)[https://engineering.mercari.com/blog/entry/how_to_use_t_parallel/]
+        - 並列実行などもあるらしい： [参考文献](https://engineering.mercari.com/blog/entry/how_to_use_t_parallel/)
         - helper関数などもあるらしい: 要確認
     - Benchmark
         - 処理がどのくらいのスピードなのか、やどのくらいのメモリ消費量で行われるかを確認できる
         - *testing.Bで実行可能
-        - 並列実行があるらしい: (参考文献)[https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64]
+        - 並列実行があるらしい: [参考文献](https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64)
     - Subtest & Subbenchmark
         - testやbenchmarkを階層化できる...これで複数ケースでの動作確認がやりやすい
         - *testing.T.Run()や*testing.B.Run()を利用して実行する
@@ -138,21 +140,21 @@ golangを完全に理解するためのリポジトリ
     - モック:
         - Bのメソッドを使うAのメソッドをtestしたいときで、Bのメソッドが外部APIなどを使っていて処理がばらつく、処理時間がめっちゃ時間かかる、実装がめっちゃ大変で内部処理が複雑である、といった時に、Bの振る舞いをするオブジェクト(機能的な実装はせずに、求めている型を持つ適当な戻り値と引数を設定している)を用意する。それがmockであり、AのメソッドがBのメソッドを呼び出すときの引数や回数が想定通りかを検証する。実際に、AのメソッドとBのメソッドがどのように連携するかを確かめるかのもの。テストの一部。
         - mockとstabの違い:
-            - (参考文献1)[https://craftsman-software.com/posts/38]
-            - (参考文献2)[https://qiita.com/k5trismegistus/items/10ce381d29ab62ca0ea6#:~:text=%E3%82%B9%E3%82%BF%E3%83%96%E3%81%A8%E3%83%A2%E3%83%83%E3%82%AF%E3%81%AE%E6%9C%80%E5%A4%A7,%E3%81%84%E3%81%A3%E3%81%A6%E3%82%88%E3%81%84%E3%81%A7%E3%81%97%E3%82%87%E3%81%86%E3%80%82]
-            - (参考文献3)[https://gotohayato.com/content/483/]
+            - [参考文献1](https://craftsman-software.com/posts/38)
+            - [参考文献2](https://qiita.com/k5trismegistus/items/10ce381d29ab62ca0ea6#:~:text=%E3%82%B9%E3%82%BF%E3%83%96%E3%81%A8%E3%83%A2%E3%83%83%E3%82%AF%E3%81%AE%E6%9C%80%E5%A4%A7,%E3%81%84%E3%81%A3%E3%81%A6%E3%82%88%E3%81%84%E3%81%A7%E3%81%97%E3%82%87%E3%81%86%E3%80%82)
+            - [参考文献3](https://gotohayato.com/content/483/)
             - スタブとは、テストに必要だけどまだ実装出来ていないモジュールがある時に、そのモジュールの代わりにテストケースに沿った値を返してくれるオブジェクト
     - mockgenとgomock
         - mockgenは、インタフェースからmockを生成する
         - gomockは、mockを取り扱うライブラリ(当然だが、testingとかもかなりライブラリ内で利用されている)
-        - (参考文献1)[https://pkg.go.dev/github.com/golang/mock/gomock#Controller]
-        - (参考文献2)[https://github.com/golang/mock]
-        - (参考文献3)[https://www.asobou.co.jp/blog/web/gomock]
+        - [参考文献1](https://pkg.go.dev/github.com/golang/mock/gomock#Controller)
+        - [参考文献2](https://github.com/golang/mock)
+        - [参考文献3](https://www.asobou.co.jp/blog/web/gomock)
         - しっかりとソースコードを読み進める必要があるが、recoderの関数などを用いて設定した値をMockのメソッドで返している
     - APIサーバなどの、httpリクエスト関連のtest
         - 開発時に要確認
 - goのディレクトリの意味の理解する！
-    - 参考文献: https://future-architect.github.io/articles/20200528/
+    - [参考文献](https://future-architect.github.io/articles/20200528/)
     - testdata...コンパイルの対象外
 - go generator
     - codeの自動生成ができるらしい
