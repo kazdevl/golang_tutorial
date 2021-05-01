@@ -2,59 +2,68 @@ package parallel_test
 
 import (
 	"app/test/parallel"
+	"fmt"
 	"testing"
 )
 
 func TestSingle(t *testing.T) {
 	name := "Single"
-	t.Cleanup(parallel.Trace(name + "...CleanUp"))
-	defer parallel.Trace(name + "...defer")
+	fmt.Println("called")
+	t.Cleanup(parallel.Trace(name + "...CleanUp")) //この宣言時に、parallel.Trace(name + "...CleanUp")が実行されるが、戻り値の関数はSubTestもふくむ全てのTestが終わった時に実行される
+	// defer parallel.Trace(name + "...defer")
 }
 
 func TestParallelInTopLevel(t *testing.T) {
 	name := "Parallel"
-	t.Cleanup(parallel.Trace(name + "...CleanUp"))
-	defer parallel.Trace(name + "...defer")
+	fmt.Println("called")
 	t.Parallel()
+	t.Cleanup(parallel.Trace(name + "...CleanUp"))
+	// defer parallel.Trace(name + "...defer")
 }
 
 func TestParallelInSubTests(t *testing.T) {
 	name := "ParallelInSubTests"
+	fmt.Println("called before t.Prallel")
 	t.Cleanup(parallel.Trace(name + "...CleanUp In TopLevel"))
-	defer parallel.Trace(name + "...defer In TopLevel")
+	// defer parallel.Trace(name + "...defer In TopLevel")
 
 	t.Run("SubFunc1_SubTest", func(t *testing.T) {
 		name = "SubFunc1"
-		t.Cleanup(parallel.Trace(name + "...CleanUp"))
-		defer parallel.Trace(name + "...defer")
+		fmt.Println("called before t.Prallel")
 		t.Parallel()
+		t.Cleanup(parallel.Trace(name + "...CleanUp"))
+		// defer parallel.Trace(name + "...defer")
 	})
 
 	t.Run("SubFunc2_SubTest", func(t *testing.T) {
 		name = "SubFunc2"
-		t.Cleanup(parallel.Trace(name + "...CleanUp"))
-		defer parallel.Trace(name + "...defer")
+		fmt.Println("called before t.Prallel")
 		t.Parallel()
+		t.Cleanup(parallel.Trace(name + "...CleanUp"))
+		// defer parallel.Trace(name + "...defer")
 	})
 }
 
 func TestParallelInTopLevelAndSubTests(t *testing.T) {
 	name := "ParallelInTopLevelAndSubTests"
-	t.Cleanup(parallel.Trace(name + "...CleanUp In TopLevel"))
-	defer parallel.Trace(name + "...defer In TopLevel")
+	fmt.Println("called before t.Prallel")
 	t.Parallel()
+	t.Cleanup(parallel.Trace(name + "...CleanUp In TopLevel"))
+	// defer parallel.Trace(name + "...defer In TopLevel")
 
 	t.Run("SubFunc1_TopLevelAndSubTests", func(t *testing.T) {
 		name = "SubFunc1"
-		t.Cleanup(parallel.Trace(name + "...CleanUp"))
-		defer parallel.Trace(name + "...defer")
+		fmt.Println("called before t.Prallel")
 		t.Parallel()
+		t.Cleanup(parallel.Trace(name + "...CleanUp"))
+		// defer parallel.Trace(name + "...defer")
 	})
 
 	t.Run("SubFunc2_TopLevelAndSubTests", func(t *testing.T) {
 		name = "SubFunc2"
-		t.Cleanup(parallel.Trace(name + "...CleanUp"))
-		defer parallel.Trace(name + "...defer")
+		fmt.Println("called before t.Prallel")
 		t.Parallel()
+		t.Cleanup(parallel.Trace(name + "...CleanUp"))
+		// defer parallel.Trace(name + "...defer")
 	})
 }
