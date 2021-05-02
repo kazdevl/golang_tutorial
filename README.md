@@ -37,10 +37,47 @@ golangを完全に理解するためのリポジトリ
             - 同じ処理を一斉に行う
             - 同時にいくつかの同じタスクを処理する
         - main Goroutineのプロセスが終了したら、全体の各Goroutineの処理も終了する
+        - goroutinesが複数ある場合、どれが先にアクセスするか不明
+            - 複数のgoroutineで共通の変数を取り扱うと、値の変更や参照が競合する
+            - Do not communicate by sharing memory; instead, share memory by communicating
+            - 解決手法1: 1つの変数には1つのgoroutineからアクセスする
+            - 解決手法2: chanelを使って、goroutines間で値を送受信する
+            - 解決手法3: syncパッケージで排他処理をする
         - chanel: 値を送受信できる通信路のようなもの、並行実行された関数間での値の送受信によく利用される
-            - chanelは片方が準備できるまで、送受信は自動的にブロックされる
+            - chanelは片方が準備できるまで、送受信は自動的にブロックされる(この結果同期的処理になる)
+                - 送信時に、chanelのバファが埋まっていると、送信をブロック...chanelで受信して、送信できるようになるまで、送信をブロック
+                - 受信時に、chanelのバッファが空だと、受信をブロック...chanelに値が送信されるまで受信をブロック
             - 上記により、明示的なロックや条件変数なしで、goroutine間で同期が取れる
+            - バッファを持たせられる(指定なしだと、バッファは0)
+            - 値の型を定義する
             - mutexなどの排他処理で共有メモリを問題なく扱うやり方もある
+            - mainで、複数のchanelAとBを受信する処理を書いていて、goroutineAでchanleAに値を送信、goroutineBでchanelBに値を送信していて、
+            goroutineAの処理がめっちゃ遅くて、goroutineBの処理がめっちゃ早いと、mainスレッドは、goroutineAの処理を受け取るまで、ブロックされるので、非効率。
+            そこで、select case文で、ブロックされていないchanelの処理を随時実行する、ということが可能。
+            - chanelを引数にするとき、受信専用chanel("<-chanel 型")や送信専用chanel("chanel<- 型")などにすることが可能...双方向chanelもある
+                - 双方向→片側方向に関してはキャストの必要なし、しかし、逆は必要
+            - Concurrencyの実現手法として、for selectパターンがある...goroutineで無限ループして、適宜結果をmainでselectで取得する(goroutineのメモリリークの可能性がある)
+        - syncパッケージ
+            - [参考文献1](https://qiita.com/t-mochizuki/items/80dc959b4221c53f3c40)
+            - [参考文献2](https://golang.org/pkg/sync/)
+            - [参考文献3](https://www.slideshare.net/takuyaueda967/gaegosync)
+            - chanelだけを使っていると、コードが難解になる場合がある...送受信したいデータが単一型でない場合が多い。
+            - データの競合が発生しないように、ロックを提供するパッケージ
+            - sync.WaitGroup...複数のgoroutineを待機させる
+                - DB系の処理に利用される
+            - sync.Lock
+            - sync.RLock
+            - sync.Once
+        - コンテキスト
+            - [参考文献1](https://qiita.com/marnie_ms4/items/985d67c4c1b29e11fffc)
+            - [参考文献2](https://qiita.com/yoshinori_hisakawa/items/a6608b29059a945fbbbd)
+            - [参考文献3](https://tutuz-tech.hatenablog.com/entry/2019/10/20/112353)
+            - [参考文献4](https://blog.golang.org/context)
+            - [参考文献5](https://golang.org/pkg/context/)
+            - ゴールーチンをまたいだ処理のキャンセルを行う
+            - 構造体のフィールドに保存しない
+            - リクエスト起因のデータのみにする
+            - Valueとして保存する場合のキーは外に公開しない
     - goroutineに関しては並行処理
 - testing
     - _testというsufixをファイル名につけることで、go test時にしかコンパイルされなくなる
@@ -131,6 +168,7 @@ golangを完全に理解するためのリポジトリ
         - 処理がどのくらいのスピードなのか、やどのくらいのメモリ消費量で行われるかを確認できる
         - *testing.Bで実行可能
         - 並列実行があるらしい: [参考文献](https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64)
+            - benchmarkは一つの処理のベンチマークを図るものであり、複数の処理のベンチマークを並列に図るのではなく、一つのベンチマークを高速に図るために並列実行するのではないだろうか。...ベンチマークを取るために、めっちゃ処理を繰り返して行っているため。
     - Subtest & Subbenchmark
         - testやbenchmarkを階層化できる...これで複数ケースでの動作確認がやりやすい
         - *testing.T.Run()や*testing.B.Run()を利用して実行する
