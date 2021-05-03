@@ -11,11 +11,11 @@ services:
         tty: true
     db:
         build: ./mysql
-        container_name: tutorial_db
+        container_name: tutorial_db_container
         env_file: ./.env
         environment:
             MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-            MYSQL_DATABSE: $MYSQL_DATABSE
+            MYSQL_DATABSE: $MYSQL_DATABASE
             MYSQL_USER: $MYSQL_USER
             MYSQL_PASSWORD: $MYSQL_PASSWORD
         ports:
