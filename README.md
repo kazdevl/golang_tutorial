@@ -167,8 +167,20 @@ golangを完全に理解するためのリポジトリ
     - Benchmark
         - 処理がどのくらいのスピードなのか、やどのくらいのメモリ消費量で行われるかを確認できる
         - *testing.Bで実行可能
-        - 並列実行があるらしい: [参考文献](https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64)
-            - benchmarkは一つの処理のベンチマークを図るものであり、複数の処理のベンチマークを並列に図るのではなく、一つのベンチマークを高速に図るために並列実行するのではないだろうか。...ベンチマークを取るために、めっちゃ処理を繰り返して行っているため。
+        - 並列実行があるらしい
+            - [参考文献1](https://qiita.com/marnie_ms4/items/8706f43591fb23dd4e64)
+            - [参考文献2](https://golang.org/pkg/testing/)
+            - benchmarkは一つの処理のベンチマークを図るものであり、複数の処理のベンチマークを並列に図るのではなく、一つのベンチマークを高速に図るために並列実行する(関数からも見てとれた)。...ベンチマークを取るために、めっちゃ処理を繰り返して行っているため。
+            ```
+            If a benchmark needs to test performance in a parallel setting, it may use the RunParallel helper function; such benchmarks are intended to be used with the go test -cpu flag:
+            ```
+            - (*B).RunParallel
+            ```
+            RunParallel runs a benchmark in parallel. It creates multiple goroutines and distributes b.N iterations among them. The number of goroutines defaults to GOMAXPROCS. To increase parallelism for non-CPU-bound benchmarks, call SetParallelism before RunParallel. RunParallel is usually used with the go test -cpu flag.
+
+            The body function will be run in each goroutine. It should set up any goroutine-local state and then iterate until pb.Next returns false. It should not use the StartTimer, StopTimer, or ResetTimer functions, because they have global effect. It should also not call Run.
+            ```
+            - (*PB).Next...実行するイテレーションがまだあるかどうかを報告する
     - Subtest & Subbenchmark
         - testやbenchmarkを階層化できる...これで複数ケースでの動作確認がやりやすい
         - *testing.T.Run()や*testing.B.Run()を利用して実行する
