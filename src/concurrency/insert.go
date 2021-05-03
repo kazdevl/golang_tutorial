@@ -36,38 +36,41 @@ func NewSqlHandler(db *sql.DB) *SqlHandler {
 }
 
 func (handler *SqlHandler) BulkInsert(bs []bookForInsert) error {
-	makeValuesForInsert := func(bs []bookForInsert) string {
-		values := make([]string, len(bs))
-		for index, b := range bs {
-			values[index] = fmt.Sprintf("('%s',%d)", b.name, b.value) //脆弱性が残っている実装になっている...https://www.ipa.go.jp/files/000017320.pdf
-		}
-		return strings.Join(values, ",")
-	}
-	query := fmt.Sprintf("insert into book(name,value) values %s", makeValuesForInsert(bs))
-	if _, err := handler.DB.Exec(query); err != nil {
-		return err
-	}
-	return nil
-	// makePlaceholder := func(length int) string {
-	// 	values := make([]string, length)
-	// 	for index := 0; index < length; index++ {
-	// 		values[index] = "(?, ?)"
+	// makeValuesForInsert := func(bs []bookForInsert) string {
+	// 	values := make([]string, len(bs))
+	// 	for index, b := range bs {
+	// 		values[index] = fmt.Sprintf("('%s',%d)", b.name, b.value) //脆弱性が残っている実装になっている...https://www.ipa.go.jp/files/000017320.pdf
 	// 	}
 	// 	return strings.Join(values, ",")
 	// }
-	// query := fmt.Sprintf("INSERT INTO book(name, value) values %s", makePlaceholder(len(bs)))
-
-	// converterForExec := func(bs []bookForInsert) []interface{} {
-	// 	bind := make([]interface{}, len(bs))
-	// 	for index, b := range bs {
-	// 		bind[index] = b
-	// 	}
-	// 	return bind
-	// }
-	// if _, err := handler.DB.Exec(query, converterForExec(bs)); err != nil {//ここでエラーが出る
+	// query := fmt.Sprintf("insert into book(name,value) values %s", makeValuesForInsert(bs))
+	// if _, err := handler.DB.Exec(query); err != nil {
 	// 	return err
 	// }
 	// return nil
+	makePlaceholder := func(length int) string {
+		values := make([]string, length)
+		for index := 0; index < length; index++ {
+			values[index] = "(?, ?)"
+		}
+		return strings.Join(values, ",")
+	}
+	query := fmt.Sprintf("INSERT INTO book(name, value) values %s", makePlaceholder(len(bs)))
+
+	converterForExec := func(bs []bookForInsert) []interface{} {
+		bind := make([]interface{}, len(bs)*2)
+		var index int = 0
+		for _, b := range bs {
+			bind[index] = b.name
+			bind[index+1] = b.value
+			index += 2
+		}
+		return bind
+	}
+	if _, err := handler.DB.Exec(query, converterForExec(bs)...); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (handler *SqlHandler) BulkGet(ids []int) ([]bookModel, error) {
