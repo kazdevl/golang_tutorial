@@ -1,7 +1,7 @@
 use tutorial_db;
 
 create table book (
-    id int primary key,
+    id int AUTO_INCREMENT primary key,
     name varchar(255) not null,
     value int not null
 );
