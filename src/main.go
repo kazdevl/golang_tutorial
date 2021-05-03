@@ -13,7 +13,8 @@ func main() {
 	// checkFlowControl()
 	// checkTypes()
 	// checkMethods()
-	checkConcurrency()
+	// checkConcurrency()
+	concurrency.BulkInsertWithConcurrency()
 }
 
 func checkBasic() {
