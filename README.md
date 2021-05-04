@@ -243,3 +243,47 @@ golangを完全に理解するためのリポジトリ
             - execはinterfaceであり、その実装はDriverに依存している
     - errors
     - time
+
+
+## 豆知識
+- interface
+    - golangには明示的なimplementが存在しないため、大規模になってくるとどの構造体がどのインタフェースを実装しているかが一目で把握できない可能性がある(構造体を一挙に宣言している時など)
+    - 上記の対策として、以下のように記述することで、aはAとBを実装していることが明記できるし、実際に実装できていないとコンパイルエラーになる
+    ```
+    var (
+        _ A = a
+        _ B = a
+        ...
+        ...
+        ...
+    )
+    ```
+    - 型はメソッドの任意のサブセットから、任意のインタフェースを実装するので、複数の異なるインタフェースを実装できる
+        - よって、全ての型は空のインタフェースを実装しているとも言えるので、interface{}(0個のメソッドを実装した型)を全ての型が実装していると言える。
+    - [参考文献](https://golang.org/ref/spec#Interface_types)
+- struct
+    - strcut{}{}はメモリを消費しない。
+    - e.g.)システムに存在するアイテムのなかでユーザが持っていないものを確認したいとき、
+    mapのなかに、空の構造体を使うことでメモリ消費を抑えた実装で実現することができる
+        ```
+        items := getAllItemsInGame() //戻り値: []struct{name string, value int}
+        user_items := getUserItems() //戻り値: []struct{name string, value int}
+        var hashmap_user_items map[string]struct{}
+        for _, u_item := range user_items {
+            hashmap_user_items[u_item.name] = sturct{}
+        }
+        // 全てのアイテムの中で、ユーザが持っていないものがあるかを確認する処理
+        for _, item := range items {
+            if _, ok := hashmap_user_items[item.name]; !ok {
+                fmt.Printf("user don't have %s", item.name)
+            }
+        }
+        ```
+- 一般のアプリケーションでは、サーバーを起動し続けるためにmainゴールーチンが動きっぱなし、開放すべきものは開放することでメモリを効率的に扱えるので、使用しないchanelはcloseする
+    - dbなどのコネクションに関しては何回も接続するのは圧倒的に非効率なので、defer db.Close()とすることで、mainゴールーチンが落ちた時(サーバが終了した時)のみデータベースとの接続を終了する
+## 参考になる記事
+- データベースのコネクションプールについて: [参考文献](https://please-sleep.cou929.nu/go-sql-db-connection-pool.html)
+- GoroutineをWaitGroup(ErrGroup)で制御する: [参考文献](https://blog.toshimaru.net/goroutine-with-waitgroup/#goroutine--errgroup--context-%E3%82%92%E4%BD%BF%E3%81%86)
+- Goroutineのエラーハンドリング: [参考文献](https://ludwig125.hatenablog.com/entry/2019/09/28/043334)
+- sliceの理解: [参考文献](https://qiita.com/tenntenn/items/5229bce80ddb688a708a)
+- Goのアプリケーションの実装の面で参考になる: [参考文献](https://github.com/camphor-/relaym-server/blob/master/main.go)
