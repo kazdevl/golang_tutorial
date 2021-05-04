@@ -4,23 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 	"runtime"
 	"strings"
 	"sync"
 
 	_ "github.com/go-sql-driver/mysql"
-
-	"github.com/joho/godotenv"
 )
 
 type bookModel struct {
 	id    int
-	name  string
-	value int
-}
-
-type bookForInsert struct {
 	name  string
 	value int
 }
@@ -35,19 +27,15 @@ func NewSqlHandler(db *sql.DB) *SqlHandler {
 	}
 }
 
-func (handler *SqlHandler) BulkInsert(bs []bookForInsert) error {
-	// makeValuesForInsert := func(bs []bookForInsert) string {
-	// 	values := make([]string, len(bs))
-	// 	for index, b := range bs {
-	// 		values[index] = fmt.Sprintf("('%s',%d)", b.name, b.value) //脆弱性が残っている実装になっている...https://www.ipa.go.jp/files/000017320.pdf
-	// 	}
-	// 	return strings.Join(values, ",")
-	// }
-	// query := fmt.Sprintf("insert into book(name,value) values %s", makeValuesForInsert(bs))
-	// if _, err := handler.DB.Exec(query); err != nil {
-	// 	return err
-	// }
-	// return nil
+func (handler *SqlHandler) Insert(name string, value int) error {
+	query := "INSERT INTO book(name, value) values (?,?)"
+	if _, err := handler.DB.Exec(query, name, value); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (handler *SqlHandler) BulkInsert(bms []bookModel) error {
 	makePlaceholder := func(length int) string {
 		values := make([]string, length)
 		for index := 0; index < length; index++ {
@@ -55,19 +43,19 @@ func (handler *SqlHandler) BulkInsert(bs []bookForInsert) error {
 		}
 		return strings.Join(values, ",")
 	}
-	query := fmt.Sprintf("INSERT INTO book(name, value) values %s", makePlaceholder(len(bs)))
+	query := fmt.Sprintf("INSERT INTO book(name, value) values %s", makePlaceholder(len(bms)))
 
-	converterForExec := func(bs []bookForInsert) []interface{} {
-		bind := make([]interface{}, len(bs)*2)
+	converterForExec := func(bms []bookModel) []interface{} {
+		bind := make([]interface{}, len(bms)*2)
 		var index int = 0
-		for _, b := range bs {
+		for _, b := range bms {
 			bind[index] = b.name
 			bind[index+1] = b.value
 			index += 2
 		}
 		return bind
 	}
-	if _, err := handler.DB.Exec(query, converterForExec(bs)...); err != nil {
+	if _, err := handler.DB.Exec(query, converterForExec(bms)...); err != nil {
 		return err
 	}
 	return nil
@@ -96,28 +84,11 @@ func (handler *SqlHandler) BulkGet(ids []int) ([]bookModel, error) {
 	return bms, nil
 }
 
-func BulkInsertWithConcurrency() {
-	// dbとの接続
-	if err := godotenv.Load(); err != nil {
-		fmt.Printf("%v\n", err)
-	}
-	db, err := sql.Open("mysql", os.Getenv("DSN"))
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer db.Close()
-	// handlerの初期化
-	handler := NewSqlHandler(db)
-
-	// dbに保存したいデータ
-	books := make([]bookForInsert, 3000)
-	for index := 0; index < len(books); index++ {
-		books[index] = bookForInsert{name: "test", value: index + 100}
-	}
+func (handler *SqlHandler) BulkInsertWithConcurrency(bms []bookModel) {
 	// goroutineの数を算出
 	threadNum := runtime.NumCPU()
 	// 1gorouitneごとに処理するコンテンツの数
-	contentsNumPerThread := len(books) / threadNum
+	contentsNumPerThread := len(bms) / threadNum
 
 	// 排他処理を制御する変数
 	var m sync.Mutex
@@ -141,7 +112,7 @@ func BulkInsertWithConcurrency() {
 			contentsNumPerLoop := contentsNumPerThread / loopNum
 			for i := 0; i < loopNum; i++ {
 				m.Lock()
-				if err := handler.BulkInsert(books[index : index+contentsNumPerLoop]); err != nil {
+				if err := handler.BulkInsert(bms[index : index+contentsNumPerLoop]); err != nil {
 					log.Fatal(err)
 				}
 				index += contentsNumPerLoop
@@ -150,19 +121,9 @@ func BulkInsertWithConcurrency() {
 		}()
 	}
 	wg.Wait()
-	if index <= len(books)-1 {
-		if err := handler.BulkInsert(books[index:]); err != nil {
+	if index <= len(bms)-1 {
+		if err := handler.BulkInsert(bms[index:]); err != nil {
 			log.Fatal(err)
 		}
 	}
-
-	data := make([]int, 50)
-	for i := 0; i < len(data); i++ {
-		data[i] = i
-	}
-	bms, err := handler.BulkGet(data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%v", bms)
 }
