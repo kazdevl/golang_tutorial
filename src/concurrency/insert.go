@@ -11,10 +11,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type bookModel struct {
-	id    int
-	name  string
-	value int
+type BookModel struct {
+	ID    int
+	Name  string
+	Value int
 }
 
 type SqlHandler struct {
@@ -35,7 +35,7 @@ func (handler *SqlHandler) Insert(name string, value int) error {
 	return nil
 }
 
-func (handler *SqlHandler) BulkInsert(bms []bookModel) error {
+func (handler *SqlHandler) BulkInsert(bms []BookModel) error {
 	makePlaceholder := func(length int) string {
 		values := make([]string, length)
 		for index := 0; index < length; index++ {
@@ -45,12 +45,12 @@ func (handler *SqlHandler) BulkInsert(bms []bookModel) error {
 	}
 	query := fmt.Sprintf("INSERT INTO book(name, value) values %s", makePlaceholder(len(bms)))
 
-	converterForExec := func(bms []bookModel) []interface{} {
+	converterForExec := func(bms []BookModel) []interface{} {
 		bind := make([]interface{}, len(bms)*2)
 		var index int = 0
 		for _, b := range bms {
-			bind[index] = b.name
-			bind[index+1] = b.value
+			bind[index] = b.Name
+			bind[index+1] = b.Value
 			index += 2
 		}
 		return bind
@@ -61,7 +61,7 @@ func (handler *SqlHandler) BulkInsert(bms []bookModel) error {
 	return nil
 }
 
-func (handler *SqlHandler) BulkGet(ids []int) ([]bookModel, error) {
+func (handler *SqlHandler) BulkGet(ids []int) ([]BookModel, error) {
 	makePlaceholder := func(ids []int) string {
 		values := make([]string, len(ids))
 		for index := 0; index < len(ids); index++ {
@@ -72,19 +72,19 @@ func (handler *SqlHandler) BulkGet(ids []int) ([]bookModel, error) {
 	query := fmt.Sprintf("SELECT * FROM book WHERE id in (%s)", makePlaceholder(ids))
 	rows, err := handler.DB.Query(query)
 	if err != nil {
-		return []bookModel{}, err
+		return []BookModel{}, err
 	}
 
-	bms := make([]bookModel, len(ids))
+	bms := make([]BookModel, len(ids))
 	for index := 0; rows.Next(); index++ {
-		if err := rows.Scan(&bms[index].id, &bms[index].name, &bms[index].value); err != nil {
-			return []bookModel{}, err
+		if err := rows.Scan(&bms[index].ID, &bms[index].Name, &bms[index].Value); err != nil {
+			return []BookModel{}, err
 		}
 	}
 	return bms, nil
 }
 
-func (handler *SqlHandler) BulkInsertWithConcurrency(bms []bookModel) {
+func (handler *SqlHandler) BulkInsertWithConcurrency(bms []BookModel) {
 	// goroutineの数を算出
 	threadNum := runtime.NumCPU()
 	// 1gorouitneごとに処理するコンテンツの数
