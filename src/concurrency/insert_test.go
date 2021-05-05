@@ -51,7 +51,7 @@ func BenchmarkInsert(b *testing.B) {
 		numOfGoroutine := getNumOfGoroutineOfBulkInsert(contentsNumPerThread)
 		contentsNumOfInsert := contentsNumPerThread / numOfGoroutine
 		for i := 0; i < len(bms)/contentsNumOfInsert; i++ {
-			if err := handler.BulkInsert(bms[i*contentsNumOfInsert : (i+1)*contentsNumOfInsert-1]); err != nil {
+			if err := handler.BulkInsert(bms[i*contentsNumOfInsert : (i+1)*contentsNumOfInsert]); err != nil {
 				fmt.Println(err)
 			}
 		}
