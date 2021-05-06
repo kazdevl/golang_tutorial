@@ -6,7 +6,7 @@ import (
 
 // 参考文献1: https://golang.org/doc/effective_go#methods
 // 参考文献2: https://skatsuta.github.io/2015/12/29/value-receiver-pointer-receiver/#u30B3_u30F3_u30D1_u30A4_u30E9_u306E_u30BD_u30FC_u30B9_u30B3_u30FC_u30C9_u3092_u78BA_u304B_u3081_u308B
-// 参考文献3: https://qiita.com/nirasan/items/02e88c3ba64c444fa527
+// 参考文献3: https://qiita.com/nirasan/items/02e88c3ba64c444fa527...値がアドレス可能でないパターンの把握(要確認)
 // 参考文献4: https://qiita.com/tikidunpon/items/2d9598f33817a6e99860
 /*
 ポインタと値のレシーバに関するルールは、値のメソッドはポインタと値で呼び出すことができますが、
@@ -15,7 +15,7 @@ import (
 このルールは、ポインタメソッドはレシーバを変更することができるために発生します。
 値に対してポインタメソッドを呼び出すと、メソッドは値のコピーを受け取ることになり、変更は破棄されてしまいます。
 そのため、言語ではこのようなミスを禁止しています。しかし、便利な例外があります。
-値がアドレス可能な場合、言語はアドレス演算子を自動的に挿入することで、ポインタメソッドを値上で呼び出すというよくあるケースに対処します。...値がアドレス可能でない時とはいつなのかのチェック...nilの場合と考えられる
+値がアドレス可能な場合、言語はアドレス演算子を自動的に挿入することで、ポインタメソッドを値上で呼び出すというよくあるケースに対処します。...値がアドレス可能でない時とはいつなのかのチェック(値型でマップやインターフェイスの要素)
 この例では、変数bはアドレス指定可能なので、b.Writeだけで変数のWriteメソッドを呼び出すことができます。
 コンパイラはこれを(&b).Writeに書き換えてくれます。
 */
@@ -36,6 +36,11 @@ func (h Human) Set(name string) {
 func (h *Human) SetWithPointer(name string) {
 	fmt.Printf("pointer method: %p\n", h)
 	h.Name = name
+}
+
+func (h *Human) CallForNil(name string) string {
+	fmt.Printf("pointer method: %p\n", h)
+	return "Hi! nil, my name is " + name
 }
 
 func Check() {
@@ -59,7 +64,7 @@ func Check() {
 	b := &Human{Name: "init 2"}
 	fmt.Println("ポインタ型変数の検証")
 	// 値のメソッドはポインタでもしっかりと呼び出されるのかの検証...暗黙的変換の検証
-	fmt.Printf("before set call :%p\n", b)
+	fmt.Printf("before set call bが持つアドレス:%p\n", b)
 	b.Set("Hello1")
 	fmt.Printf("name: %s\n", (*b).Get())
 	fmt.Printf("name: %s\n", b.Get())
@@ -68,5 +73,21 @@ func Check() {
 	fmt.Printf("before setWithPointer call bが持つアドレス:%p\n", b)
 	b.SetWithPointer("Hello2")
 	fmt.Printf("name: %s\n", b.Name)
-	fmt.Printf("name: %s\n", (*b).Name)
+	fmt.Printf("name: %s\n\n", (*b).Name)
+
+	// nilの検証...ポインタ編
+	var c *Human
+	fmt.Println("nil...ポインタ型の検証")
+	fmt.Printf("before CallForNil call cが持つアドレス:%p\n", c)
+	fmt.Printf("name: %s\n\n", c.CallForNil("Test"))
+
+	// nilの検証...値編
+	var d Human
+	fmt.Println("nil...値型の検証")
+	fmt.Printf("before set call dのアドレス:%p\n", &d)
+	fmt.Printf("name: %s\n\n", d.CallForNil("Test"))
+
+	// mapとinterfaceの検証
+	fmt.Println("mapとinterfaceの検証")
+	// TODO
 }
