@@ -296,3 +296,4 @@ golangを完全に理解するためのリポジトリ
 - Goroutineのエラーハンドリング: [参考文献](https://ludwig125.hatenablog.com/entry/2019/09/28/043334)
 - sliceの理解: [参考文献](https://qiita.com/tenntenn/items/5229bce80ddb688a708a)
 - Goのアプリケーションの実装の面で参考になる: [参考文献](https://github.com/camphor-/relaym-server/blob/master/main.go)
+- mysqlの文字コードについて: [参考文献](https://yoneyore.hatenablog.com/entry/2020/11/26/232128)

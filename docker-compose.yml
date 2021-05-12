@@ -21,3 +21,4 @@ services:
         ports:
             - 3306:3306
         tty: true
+        # restart: always....起動→起動中→終了を繰り返すので, dial tcp: lookup tutorial_db_container on 127.0.0.11:53: no such hostとなり、コンテナを発見できない
