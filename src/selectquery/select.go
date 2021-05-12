@@ -1,30 +1,31 @@
-package sql
+package selectquery
 
 import (
-	"app/sql/domain"
+	"app/selectquery/domain"
 	"database/sql"
 	"log"
 )
 
-type Handler struct {
+type Gender int
+
+const (
+	IsFemail = iota
+	IsMail   = 1
+)
+
+type SelectOperator struct {
 	DB *sql.DB
 }
 
-func NewHandler(db *sql.DB) *Handler {
-	return &Handler{
+func NewSelectOperator(db *sql.DB) *SelectOperator {
+	return &SelectOperator{
 		DB: db,
 	}
 }
 
-type Gender int
-
-type SelectOperator struct {
-	Handler Handler
-}
-
-func (so *SelectOperator) SelectGenderWithOverAvgIncom(gender Gender) []domain.Employee {
+func (so *SelectOperator) SelectGenderWithOverAvgIncome(gender Gender) []domain.Employee {
 	var employees []domain.Employee
-	rows, err := so.Handler.DB.Query("SELECT name, income FROM employee WHER gender = ? and income > (SELECT AVG(income) FROM employeee)", gender)
+	rows, err := so.DB.Query("SELECT name, income FROM employee WHER gender = ? and income > (SELECT AVG(income) FROM employeee)", gender)
 
 	if err != nil {
 		log.Fatal(err)
