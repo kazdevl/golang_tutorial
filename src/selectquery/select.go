@@ -3,7 +3,8 @@ package selectquery
 import (
 	"app/selectquery/domain"
 	"database/sql"
-	"log"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Gender int
@@ -23,21 +24,28 @@ func NewSelectOperator(db *sql.DB) *SelectOperator {
 	}
 }
 
-func (so *SelectOperator) SelectGenderWithOverAvgIncome(gender Gender) []domain.Employee {
+func (so *SelectOperator) SelectGenderWithOverAvgIncome(gender Gender) ([]domain.Employee, error) {
 	var employees []domain.Employee
-	rows, err := so.DB.Query("SELECT name, income FROM employee WHER gender = ? and income > (SELECT AVG(income) FROM employeee)", gender)
+	rows, err := so.DB.Query("SELECT * FROM employee WHERE gender = ? and income > (SELECT AVG(income) FROM employee)", gender)
 
 	if err != nil {
-		log.Fatal(err)
+		return employees, err
 	}
 	for rows.Next() {
-		var employee domain.Employee
-		if err := rows.Scan(employee); err != nil {
-			log.Fatal(err)
+		employee := &domain.Employee{}
+		if err := rows.Scan(
+			&employee.ID,
+			&employee.DepartmentID,
+			&employee.Income,
+			&employee.Age,
+			&employee.Gender,
+			&employee.Name,
+		); err != nil {
+			return employees, err
 		}
-		employees = append(employees, employee)
+		employees = append(employees, *employee)
 	}
-	return employees
+	return employees, nil
 }
 
 // func (so *SelectOperator) SelectTargetDepartmentInfo(dp_name string) []domain.DepartmentWithRelationsip { //relationshipで対象の名前を持つdepartmentの情報(従業員も含む)を取得する

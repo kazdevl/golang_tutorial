@@ -22,7 +22,9 @@ func TestSelect(t *testing.T) {
 	defer db.Close()
 	// handlerの初期化
 	so := selectquery.NewSelectOperator(db)
-	data := so.SelectGenderWithOverAvgIncome(selectquery.IsFemail)
+	data, err := so.SelectGenderWithOverAvgIncome(selectquery.IsFemail)
 	t.Log(data)
-	t.Error("Test")
+	if err != nil {
+		t.Error(err)
+	}
 }
