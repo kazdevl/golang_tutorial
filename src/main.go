@@ -85,4 +85,8 @@ func checkConcurrency() {
 	concurrency.RangeAndClose()
 	// 5
 	concurrency.Select()
+	// 6
+	concurrency.DetectFinishWithChannel()
+	concurrency.ErrorHandlingByErrGroup()
+	concurrency.ErrorHandlingByErrGroupAndContext()
 }

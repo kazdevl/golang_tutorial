@@ -1,8 +1,12 @@
 package concurrency
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"time"
+
+	"golang.org/x/sync/errgroup"
 )
 
 // Goのランタイムに管理される軽量なスレッド
@@ -124,4 +128,73 @@ func Select() {
 		quit <- 0
 	}()
 	fibonachi(c, quit)
+}
+
+// 6
+// 参考文献: https://blog.toshimaru.net/goroutine-with-waitgroup/#goroutine--errgroup--context-%E3%82%92%E4%BD%BF%E3%81%86
+func longTimeProcess(number int, reporter chan<- int) {
+	time.Sleep(time.Second * 2)
+	reporter <- number
+}
+
+func DetectFinishWithChannel() {
+	reporter := make(chan int, 100)
+	for i := 0; i < 100; i++ {
+		go longTimeProcess(i, reporter)
+	}
+
+	for i := 0; i < 100; i++ {
+		fmt.Printf("END: %d\n", <-reporter)
+	}
+	fmt.Println("Finish Operation")
+
+}
+
+func ErrorHandlingByErrGroup() {
+	var eg errgroup.Group
+	for i := 0; i < 100; i++ {
+		i := i
+		eg.Go(
+			func() error {
+				time.Sleep(2 * time.Second)
+				if i > 90 {
+					fmt.Println("Error:", i)
+					return fmt.Errorf("error occured in %d", i)
+				}
+				fmt.Println("End:", i)
+				return nil
+			},
+		)
+	}
+	if err := eg.Wait(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ErrorHandlingByErrGroupAndContext() { //エラーが発生した時後続のgoroutineも削除する
+	eg, ctx := errgroup.WithContext(context.Background())
+	for i := 0; i < 100; i++ {
+		i := i
+		eg.Go(
+			func() error {
+				time.Sleep(2 * time.Second)
+
+				select {
+				case <-ctx.Done():
+					fmt.Println("Candeled:", i)
+					return nil
+				default:
+					if i > 90 {
+						fmt.Println("Error:", i)
+						return fmt.Errorf("error occured in %d", i)
+					}
+					fmt.Println("End:", i)
+					return nil
+				}
+			},
+		)
+	}
+	if err := eg.Wait(); err != nil {
+		log.Fatal(err)
+	}
 }
