@@ -77,16 +77,33 @@ golangを完全に理解するためのリポジトリ
             - sync.Lock
             - sync.RLock
             - sync.Once
+        - ErrGroup
+            - [参考文献1](https://pkg.go.dev/golang.org/x/sync/errgroup#pkg-overview)
+            - syncパッケージとcontextを利用して、共通のタスクのサブタスクで動作するgoroutineのグループに対して同期、エラー伝搬、contextのキャンセルを提供する.
+            - func WithContext(ctx context.Context) (*Group, context.Context)
+            - func (g *Group) Go(f func() error)
+            - func (g *Group) Wait() error
         - コンテキスト
             - [参考文献1](https://qiita.com/marnie_ms4/items/985d67c4c1b29e11fffc)
             - [参考文献2](https://qiita.com/yoshinori_hisakawa/items/a6608b29059a945fbbbd)
             - [参考文献3](https://tutuz-tech.hatenablog.com/entry/2019/10/20/112353)
             - [参考文献4](https://blog.golang.org/context)
             - [参考文献5](https://golang.org/pkg/context/)
+            - [参考文献6](https://pkg.go.dev/context)
+            - [参考文献7](https://ayasuda.github.io/pages/what_is_context_at_go.html)
             - ゴールーチンをまたいだ処理のキャンセルを行う
             - 構造体のフィールドに保存しない
             - リクエスト起因のデータのみにする
             - Valueとして保存する場合のキーは外に公開しない
+            - ```
+                パッケージのContextはContextタイプを定義しています。Contextはデッドライン、キャンセルシグナル、その他のリクエストに対応した値をAPIの境界やプロセス間で伝達します。
+
+                サーバーへの着信リクエストはContextを作成し、サーバーへの発信コールはContextを受け入れる必要があります。それらの間の関数呼び出しのチェーンは、Contextを伝播しなければならず、オプションとして、WithCancel、WithDeadline、WithTimeout、またはWithValueを使用して作成された派生Contextで置き換えることができます。あるContextがキャンセルされると、そのContextから派生したすべてのContextもキャンセルされます。
+
+                WithCancel、WithDeadline、WithTimeoutの各関数は、Context（親）を受け取り、派生するContext（子）とCancelFuncを返します。CancelFuncを呼び出すと、子とその子がキャンセルされ、親の子への参照が削除され、関連するタイマーが停止されます。CancelFuncの呼び出しに失敗すると、親がキャンセルされるか、タイマーが切れるまで、子とその子がリークされます。go vetツールは、CancelFuncsがすべての制御フローのパスで使用されているかどうかをチェックします。
+
+                コンテキストを使用するプログラムは、パッケージ間でインターフェイスの一貫性を保ち、静的解析ツールがコンテキストの伝播をチェックできるように、これらのルールに従うべきです。
+            ```
     - goroutineに関しては並行処理
 - testing
     - _testというsufixをファイル名につけることで、go test時にしかコンパイルされなくなる
