@@ -1,7 +1,7 @@
-package parallel_test
+package basic_test
 
 import (
-	"app/test/parallel"
+	parallel "app/test/parallel/basic"
 	"fmt"
 	"testing"
 )

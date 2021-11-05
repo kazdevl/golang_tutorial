@@ -1,4 +1,4 @@
-package effective_go
+package effectivego
 
 import (
 	"fmt"
@@ -93,7 +93,6 @@ func Check() {
 	// TODO
 }
 
-
 type List []int
 
 func (l List) Len() int        { return len(l) }
@@ -116,6 +115,7 @@ type Lener interface {
 func LongEnough(l Lener) bool {
 	return l.Len()*10 > 42
 }
+
 // 抜粋：要確認
 // インターフェイスに格納されている具象値は、マップ要素がアドレス指定できないのと同じように、アドレス指定できません。
 // ポインタレシーバーのメソッドを値で呼び出せないのは、インターフェイス内に格納された値がアドレスを持たないためです。インターフェイスに値を代入する際、
@@ -123,8 +123,8 @@ func LongEnough(l Lener) bool {
 func Check2() {
 	// A bare value
 	var lst List = List{1, 2, 3}
-	CountInto(lst, 1, 10) // INVALID: Append has a pointer receiver
-	if LongEnough(lst) {  // VALID: Identical receiver type
+	//CountInto(lst, 1, 10) // INVALID: Append has a pointer receiver
+	if LongEnough(lst) { // VALID: Identical receiver type
 		fmt.Printf(" - lst is long enough")
 	}
 

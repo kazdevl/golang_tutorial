@@ -1,4 +1,4 @@
-package paralleltime_test
+package basic_test
 
 import (
 	"testing"

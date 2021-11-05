@@ -1,7 +1,7 @@
 package sorting_algorithm_test
 
 import (
-	sa "app/test/sorting_algorithm"
+	sa "app/test/parallel/sorting_algorithm"
 	"math/rand"
 	"testing"
 	"time"
