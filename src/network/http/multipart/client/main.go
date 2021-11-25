@@ -32,13 +32,13 @@ func main() {
 	paths := getImagesPaths("./asset")
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
-	defer writer.Close()
 	for i, path := range paths {
 		image, _ := os.Open(path)
 		defer image.Close()
 		part, _ := writer.CreateFormFile("image", fmt.Sprintf("sample%d", i))
 		io.Copy(part, image)
 	}
+	writer.Close()
 	r, _ := http.NewRequest("POST", "http://localhost:8080", body)
 	r.Header.Add("Content-Type", writer.FormDataContentType())
 	c := &http.Client{}
