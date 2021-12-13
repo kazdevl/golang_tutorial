@@ -22,9 +22,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(len(des))
 	for _, de := range des {
 		fmt.Printf("de name(): %s\n", de.Name())
 		fsInfo, _ := de.Info()
 		fmt.Printf("fsInfo name(): %s\n", fsInfo.Name())
 	}
+	newPath := filepath.Join(path, "sample")
+	fmt.Println(newPath)
 }
