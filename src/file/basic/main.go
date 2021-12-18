@@ -30,4 +30,21 @@ func main() {
 	}
 	newPath := filepath.Join(path, "sample")
 	fmt.Println(newPath)
+	userDir, _ := os.UserHomeDir()
+	if err := os.Mkdir(filepath.Join(userDir, "sample"), 0777); err != nil {
+		log.Println(err)
+	}
+	if f, err := os.Stat(filepath.Join(userDir, "sample")); os.IsNotExist(err) || !f.IsDir() {
+		fmt.Println("ディレクトリは存在しません！")
+	} else {
+		fmt.Println("存在するです")
+	}
+	if err := os.MkdirAll(filepath.Join(userDir, "sample1", "sample2", "sample3"), 0777); err != nil {
+		log.Println(err)
+	}
+	if f, err := os.Stat(filepath.Join(userDir, "sample1", "sample2", "sample3")); os.IsNotExist(err) || !f.IsDir() {
+		fmt.Println("ディレクトリは存在しません！")
+	} else {
+		fmt.Println("存在するです")
+	}
 }
