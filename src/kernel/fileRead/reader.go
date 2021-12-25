@@ -1,5 +1,11 @@
 package fileRead
 
+import (
+	"log"
+	"os"
+	"strings"
+)
+
 type Content struct {
 	Page string `json:"page"`
 }
@@ -9,7 +15,11 @@ type SliceContent struct {
 }
 
 func ReadTextFileContent() []string {
-	return nil
+	data, err := os.ReadFile("sample1.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.Split(string(data), "\n")
 }
 
 func ReadJsonFileContentWithContents() []Content {
