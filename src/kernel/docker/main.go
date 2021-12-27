@@ -25,15 +25,17 @@ func main() {
 	}()
 	go func() {
 		for {
-			cmd := exec.Command("docker", "stats", "--no-stream", "some-nginx")
+			cmd := exec.Command("docker", "stats", "--no-stream", "--format", `"{{.Name}} {{.CPUPerc}} {{.NetIO}}"`, "some-nginx", "some-nginx-1")
 			a, err := cmd.Output()
 			if err != nil {
 				fmt.Println(err)
 			}
 			contents := strings.Split(string(a), "\n")
-			cs := strings.Split(contents[1], " ")
-			data := cs[6][:len(cs[6])-1]
-			fmt.Println(data)
+			for _, content := range contents[:len(contents)-1] {
+				cs := strings.Split(content, " ")
+				data := cs[1][:len(cs[1])-1]
+				fmt.Println(data)
+			}
 			// dataF, err := strconv.ParseFloat(data, 64)
 			time.Sleep(5 * time.Second)
 		}
@@ -42,5 +44,3 @@ func main() {
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 }
-
-// TODO 初期化についての調査
