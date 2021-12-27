@@ -1,6 +1,7 @@
 package fileRead
 
 import (
+	"encoding/json"
 	"log"
 	"os"
 	"strings"
@@ -22,10 +23,20 @@ func ReadTextFileContent() []string {
 	return strings.Split(string(data), "\n")
 }
 
-func ReadJsonFileContentWithContents() []Content {
-	return nil
+func ReadJsonFileContentWithContents() []string {
+	f, _ := os.Open("sample1.json")
+	var data []Content
+	json.NewDecoder(f).Decode(&data)
+	strs := make([]string, len(data))
+	for i, v := range data {
+		strs[i] = v.Page
+	}
+	return strs
 }
 
 func ReadJsonFileContentWithSliceContent() []string {
-	return nil
+	f, _ := os.Open("sample2.json")
+	var data SliceContent
+	json.NewDecoder(f).Decode(&data)
+	return data.Pages
 }
