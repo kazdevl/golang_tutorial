@@ -21,8 +21,9 @@ jobs:
         run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
       
       - name: exec lint
+      origin/${GITHUB_REF}..origin/${GITHUB_HEAD_REF}
         run: |
-            for file in $(git diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}^ --name-only --diff-filter=ACMRT -- '*.go') ; do
+            for file in $(git diff ${{ GITHUB_BASE_REF }}..${{ GITHUB_HEAD_REF }} --name-only --diff-filter=ACMRT -- '*.go') ; do
             echo $file
             golangci-lint run $file
             done
