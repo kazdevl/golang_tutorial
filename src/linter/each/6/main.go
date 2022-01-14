@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 
-	const SAMPLE0 = "1"
+	const SAMPLE0 = "2"
 
 	fmt.Println("sample")
 }
