@@ -22,7 +22,7 @@ jobs:
       
       - name: exec lint
         run: |
-            for file in $(git diff origin/${GITHUB_REF}..origin/${GITHUB_HEAD_REF} --name-only -- '*.go') ; do
+            for file in $(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} --name-only --diff-filter=ACMRT -- '*.go') ; do
             echo $file
             golangci-lint run $file
             done
