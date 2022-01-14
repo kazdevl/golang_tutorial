@@ -16,7 +16,6 @@ func main() {
 		DB:       0,
 	})
 	delete(ctx, rdb)
-
 }
 
 func tutorial(ctx context.Context, rdb *redis.Client) {
