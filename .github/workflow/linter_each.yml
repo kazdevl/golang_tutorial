@@ -1,0 +1,29 @@
+name: Pull Request Go Linter
+on:
+  pull_request:
+    paths:
+      - 'src/linter/each/**'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      GOGC: 50
+    steps:
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v2.1.4
+        with:
+          go-version: 1.17.2
+
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+
+      - name: Install golangci-lint
+        run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+      
+      - name: exec lint
+        run: |
+            for file in $(git diff origin/${GITHUB_REF}..origin/${GITHUB_HEAD_REF} --name-only -- '*.go') ; do
+            echo $file
+            golangci-lint run $file
+            done
+
