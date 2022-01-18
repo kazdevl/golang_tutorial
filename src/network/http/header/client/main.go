@@ -14,7 +14,7 @@ import (
 )
 
 var targetURL = "http://localhost:8888"
-var targetFile = "sample.txt"
+var targetFile = "sample.png"
 
 func main() {
 	// 部分的なリクエストに対応しているのかの確認
