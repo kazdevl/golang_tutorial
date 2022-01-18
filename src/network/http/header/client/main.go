@@ -22,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Content-length: ", contentLength)
 
 	// 5並列でリクエストを投げてデータを保存する
 	path, err := filepath.Abs("./")
@@ -67,7 +68,7 @@ func createDonwloaders(dir, target string, procs int, contentLength int64) Downl
 	for i := 0; i < procs; i++ {
 		r := newRange(i, procs, contentLength)
 		req, _ := http.NewRequest(http.MethodGet, targetURL+"/"+target, nil)
-		req.Header.Set("Accept-Ranges", r.createHeaderValue())
+		req.Header.Set("Range", r.createHeaderValue())
 		dls = append(dls, Downloader{
 			Client:   &http.Client{},
 			FileName: filepath.Join(dir, fmt.Sprintf("%d_%s", i, target)),
@@ -84,7 +85,7 @@ func (ds Downloaders) ParallelDownload(ctx context.Context) error {
 	for _, d := range ds {
 		d := d
 		eg.Go(func() error {
-			fmt.Printf("dl request header: %s\n", d.Request.Header.Get("Accept-Ranges"))
+			fmt.Printf("dl request header: %s\n", d.Request.Header.Get("Range"))
 			resp, err := d.Client.Do(d.Request)
 			if err != nil {
 				return errors.WithStack(err)
@@ -114,7 +115,7 @@ type Range struct {
 func newRange(index, procs int, contentLength int64) Range {
 	rangeSize := contentLength / int64(procs)
 	start := rangeSize * int64(index)
-	if index-1 == procs {
+	if index == procs-1 {
 		return Range{
 			Start: start,
 			End:   contentLength,
