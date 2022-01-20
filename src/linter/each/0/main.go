@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 
-	const SAMPLE00 = "1"
+	const SAMPLE00 = "2"
 
 	const SAMPLE0 = "1"
 	const SAMPLE0_int = 0
