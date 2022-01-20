@@ -15,7 +15,7 @@ jobs:
       - name: Get changed files
         id: changes
         run: |
-          echo "::set-output name=go::$(git diff --name-only --diff-filter=ACMRT ${{ github.sha }}^ ${{ github.sha }} | grep .go$ | xargs -I{} dirname {} |  sort | uniq | xargs)"
+          echo "::set-output name=go::$(git diff --name-only --diff-filter=ACMRT ${{ github.sha }} | grep .go$ | xargs -I{} dirname {} |  sort | uniq | xargs)"
   lint:
     runs-on: ubuntu-latest
     env:
