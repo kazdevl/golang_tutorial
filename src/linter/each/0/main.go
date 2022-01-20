@@ -4,6 +4,8 @@ import "fmt"
 
 func main() {
 
+	const SAMPLE00 = "1"
+
 	const SAMPLE0 = "1"
 	const SAMPLE0_int = 0
 	if SAMPLE0_int%2 == 0 {
