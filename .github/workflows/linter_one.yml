@@ -11,12 +11,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+
       - name: Get changed files
         id: changes
         run: |
-          echo "::set-output name=go::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .go$ | xargs -I{} dirname {} |  sort | uniq | xargs)"
+          echo "::set-output name=go::$(git diff --name-only --diff-filter=ACMRT ${{ github.sha }}^ ${{ github.sha }} | grep .go$ | xargs -I{} dirname {} |  sort | uniq | xargs)"
   lint:
     runs-on: ubuntu-latest
     env:
@@ -24,7 +23,7 @@ jobs:
     needs: changedfiles
     if: ${{needs.changedfiles.outputs.go}}
     steps:
-      - name: check
+      - name: check grep contents
         run: echo ${{needs.changedfiles.outputs.go}}
       - name: Set up Go 1.17
         uses: actions/setup-go@v2.1.4
@@ -33,12 +32,10 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.42.1 # v1.43.0は遅い（https://github.com/golangci/golangci-lint/issues/2355）
-          args: -v src/linter/one/0
+          args: -v ${{needs.changedfiles.outputs.go}}
           skip-go-installation: true
