@@ -40,5 +40,5 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.42.1 # v1.43.0は遅い（https://github.com/golangci/golangci-lint/issues/2355）
-          args: -v ${{needs.changedfiles.outputs.go}}
+          args: -v src/linter/one/0
           skip-go-installation: true
