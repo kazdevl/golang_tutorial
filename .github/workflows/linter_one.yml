@@ -35,7 +35,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2.3.4
 
-      - name: check struct
+      - name: move dir
+        run: cd src
+      
+      - name: check contents
         run: ls
 
       - name: golangci-lint
