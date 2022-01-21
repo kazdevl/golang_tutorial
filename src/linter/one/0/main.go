@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	const SAMPLE00 = "00"
+	const SAMPLE00 = "01"
 
 	const SAMPLE0 = "0"
 	const SAMPLE0_int = 0
