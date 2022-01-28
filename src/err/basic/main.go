@@ -1,8 +1,10 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+
+	"github.com/friendsofgo/errors"
+	// "github.com/pkg/errors"
 
 	"golang.org/x/xerrors"
 )
@@ -12,13 +14,13 @@ func main() {
 }
 
 func ErrRoot() error {
-	return xerrors.Errorf("err root:%w", ErrDepthOne())
+	return xerrors.Errorf("err root: %w", ErrDepthOne())
 }
 
 func ErrDepthOne() error {
-	return fmt.Errorf("error depth1:%w", ErrDepthTwo())
+	return xerrors.Errorf("error depth1: %w", ErrDepthTwo())
 }
 
 func ErrDepthTwo() error {
-	return errors.New("error depth2")
+	return errors.WithStack(fmt.Errorf("sample: %s", "data"))
 }
