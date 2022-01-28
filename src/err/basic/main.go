@@ -22,5 +22,5 @@ func ErrDepthOne() error {
 }
 
 func ErrDepthTwo() error {
-	return errors.WithStack(fmt.Errorf("sample: %s", "data"))
+	return errors.Wrap(fmt.Errorf("sample: %s", "data"), "deepest error")
 }
