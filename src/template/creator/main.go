@@ -11,13 +11,13 @@ import (
 func main() {
 	type Data struct {
 		Name  string
-		Value string
+		Value int
 	}
 
 	d := make([]Data, 100)
 	for i := 0; i < len(d); i++ {
 		d[i].Name = fmt.Sprintf("SAMPLE%d", i)
-		d[i].Value = fmt.Sprintf("%d", i)
+		d[i].Value = i
 	}
 
 	for i := 0; i < 30; i++ {
