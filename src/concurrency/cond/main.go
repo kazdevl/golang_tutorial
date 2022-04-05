@@ -24,10 +24,12 @@ func main() {
 	fmt.Println("wait 5 second")
 	time.Sleep(5 * time.Second)
 
-	for i := 0; i < 10; i++ {
-		c.Signal()
-		time.Sleep(500 * time.Millisecond)
-	}
+	// for i := 0; i < 10; i++ {
+	// 	c.Signal()
+	// 	time.Sleep(500 * time.Millisecond)
+	// }
+	c.Broadcast()
+	time.Sleep(500 * time.Millisecond)
 
 	fmt.Println("finish main go routine")
 }
