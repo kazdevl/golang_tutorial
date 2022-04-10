@@ -25,17 +25,22 @@ require (
 	gopkg.in/go-playground/validator.v9 v9.31.0
 )
 
-require golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+require (
+	github.com/panjf2000/ants v1.3.0
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+	google.golang.org/grpc v1.40.0
+	google.golang.org/protobuf v1.27.1
+)
 
 require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/elazarl/goproxy v0.0.0-20220317163658-f5c0d0953e10 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/labstack/gommon v0.3.0 // indirect
@@ -44,7 +49,6 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
-	github.com/panjf2000/ants v1.3.0 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
@@ -59,6 +63,8 @@ require (
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/net v0.0.0-20210913180222-943fd674d43e // indirect
 	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/genproto v0.0.0-20210828152312-66f60bf46e71 // indirect
+	google.golang.org/grpc/examples v0.0.0-20220408224156-ebd098392a8b
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/ini.v1 v1.63.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
