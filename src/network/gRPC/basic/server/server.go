@@ -16,7 +16,6 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/examples/data"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -162,8 +161,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	certFile := data.Path("x509/server_cert.pem")
-	keyFile := data.Path("x509/server_key.pem")
+	certFile := "server_cert.pem"
+	keyFile := "server_key.pem"
 	creds, err := credentials.NewServerTLSFromFile(certFile, keyFile)
 	if err != nil {
 		log.Fatalf("Failed to generate credentials %v", err)
