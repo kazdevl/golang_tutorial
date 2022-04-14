@@ -254,12 +254,12 @@ func (sq *SampleQuery) Clone() *SampleQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Age int `json:"age,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Sample.Query().
-//		GroupBy(sample.FieldName).
+//		GroupBy(sample.FieldAge).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -281,11 +281,11 @@ func (sq *SampleQuery) GroupBy(field string, fields ...string) *SampleGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Age int `json:"age,omitempty"`
 //	}
 //
 //	client.Sample.Query().
-//		Select(sample.FieldName).
+//		Select(sample.FieldAge).
 //		Scan(ctx, &v)
 //
 func (sq *SampleQuery) Select(fields ...string) *SampleSelect {

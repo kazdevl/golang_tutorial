@@ -15,6 +15,8 @@ type Sample struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// Age holds the value of the "age" field.
+	Age int `json:"age,omitempty"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
 }
@@ -24,7 +26,7 @@ func (*Sample) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case sample.FieldID:
+		case sample.FieldID, sample.FieldAge:
 			values[i] = new(sql.NullInt64)
 		case sample.FieldName:
 			values[i] = new(sql.NullString)
@@ -49,6 +51,12 @@ func (s *Sample) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			s.ID = int(value.Int64)
+		case sample.FieldAge:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field age", values[i])
+			} else if value.Valid {
+				s.Age = int(value.Int64)
+			}
 		case sample.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
@@ -83,6 +91,8 @@ func (s *Sample) String() string {
 	var builder strings.Builder
 	builder.WriteString("Sample(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
+	builder.WriteString(", age=")
+	builder.WriteString(fmt.Sprintf("%v", s.Age))
 	builder.WriteString(", name=")
 	builder.WriteString(s.Name)
 	builder.WriteByte(')')

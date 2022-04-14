@@ -11,6 +11,7 @@ var (
 	// SamplesColumns holds the columns for the "samples" table.
 	SamplesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "age", Type: field.TypeInt},
 		{Name: "name", Type: field.TypeString, Default: "sample"},
 	}
 	// SamplesTable holds the schema information for the "samples" table.

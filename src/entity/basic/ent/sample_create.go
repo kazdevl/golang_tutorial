@@ -19,6 +19,12 @@ type SampleCreate struct {
 	hooks    []Hook
 }
 
+// SetAge sets the "age" field.
+func (sc *SampleCreate) SetAge(i int) *SampleCreate {
+	sc.mutation.SetAge(i)
+	return sc
+}
+
 // SetName sets the "name" field.
 func (sc *SampleCreate) SetName(s string) *SampleCreate {
 	sc.mutation.SetName(s)
@@ -30,12 +36,6 @@ func (sc *SampleCreate) SetNillableName(s *string) *SampleCreate {
 	if s != nil {
 		sc.SetName(*s)
 	}
-	return sc
-}
-
-// SetID sets the "id" field.
-func (sc *SampleCreate) SetID(i int) *SampleCreate {
-	sc.mutation.SetID(i)
 	return sc
 }
 
@@ -118,13 +118,16 @@ func (sc *SampleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (sc *SampleCreate) check() error {
+	if _, ok := sc.mutation.Age(); !ok {
+		return &ValidationError{Name: "age", err: errors.New(`ent: missing required field "Sample.age"`)}
+	}
+	if v, ok := sc.mutation.Age(); ok {
+		if err := sample.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf(`ent: validator failed for field "Sample.age": %w`, err)}
+		}
+	}
 	if _, ok := sc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Sample.name"`)}
-	}
-	if v, ok := sc.mutation.ID(); ok {
-		if err := sample.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Sample.id": %w`, err)}
-		}
 	}
 	return nil
 }
@@ -137,10 +140,8 @@ func (sc *SampleCreate) sqlSave(ctx context.Context) (*Sample, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = int(id)
-	}
+	id := _spec.ID.Value.(int64)
+	_node.ID = int(id)
 	return _node, nil
 }
 
@@ -155,9 +156,13 @@ func (sc *SampleCreate) createSpec() (*Sample, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if id, ok := sc.mutation.ID(); ok {
-		_node.ID = id
-		_spec.ID.Value = id
+	if value, ok := sc.mutation.Age(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: sample.FieldAge,
+		})
+		_node.Age = value
 	}
 	if value, ok := sc.mutation.Name(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -212,7 +217,7 @@ func (scb *SampleCreateBulk) Save(ctx context.Context) ([]*Sample, error) {
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
+				if specs[i].ID.Value != nil {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}

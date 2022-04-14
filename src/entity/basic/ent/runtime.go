@@ -13,12 +13,12 @@ import (
 func init() {
 	sampleFields := schema.Sample{}.Fields()
 	_ = sampleFields
+	// sampleDescAge is the schema descriptor for age field.
+	sampleDescAge := sampleFields[0].Descriptor()
+	// sample.AgeValidator is a validator for the "age" field. It is called by the builders before save.
+	sample.AgeValidator = sampleDescAge.Validators[0].(func(int) error)
 	// sampleDescName is the schema descriptor for name field.
 	sampleDescName := sampleFields[1].Descriptor()
 	// sample.DefaultName holds the default value on creation for the name field.
 	sample.DefaultName = sampleDescName.Default.(string)
-	// sampleDescID is the schema descriptor for id field.
-	sampleDescID := sampleFields[0].Descriptor()
-	// sample.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	sample.IDValidator = sampleDescID.Validators[0].(func(int) error)
 }

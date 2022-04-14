@@ -91,10 +91,93 @@ func IDLTE(id int) predicate.Sample {
 	})
 }
 
+// Age applies equality check predicate on the "age" field. It's identical to AgeEQ.
+func Age(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAge), v))
+	})
+}
+
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
 func Name(v string) predicate.Sample {
 	return predicate.Sample(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// AgeEQ applies the EQ predicate on the "age" field.
+func AgeEQ(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAge), v))
+	})
+}
+
+// AgeNEQ applies the NEQ predicate on the "age" field.
+func AgeNEQ(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAge), v))
+	})
+}
+
+// AgeIn applies the In predicate on the "age" field.
+func AgeIn(vs ...int) predicate.Sample {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Sample(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAge), v...))
+	})
+}
+
+// AgeNotIn applies the NotIn predicate on the "age" field.
+func AgeNotIn(vs ...int) predicate.Sample {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Sample(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAge), v...))
+	})
+}
+
+// AgeGT applies the GT predicate on the "age" field.
+func AgeGT(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAge), v))
+	})
+}
+
+// AgeGTE applies the GTE predicate on the "age" field.
+func AgeGTE(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAge), v))
+	})
+}
+
+// AgeLT applies the LT predicate on the "age" field.
+func AgeLT(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAge), v))
+	})
+}
+
+// AgeLTE applies the LTE predicate on the "age" field.
+func AgeLTE(v int) predicate.Sample {
+	return predicate.Sample(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAge), v))
 	})
 }
 

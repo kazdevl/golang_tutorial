@@ -13,7 +13,7 @@ type Sample struct {
 // Fields of the Sample.
 func (Sample) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("id").Positive().Unique(),
+		field.Int("age").Positive(),
 		field.String("name").Default("sample"),
 	}
 }

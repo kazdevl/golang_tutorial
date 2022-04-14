@@ -7,6 +7,8 @@ const (
 	Label = "sample"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldAge holds the string denoting the age field in the database.
+	FieldAge = "age"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// Table holds the table name of the sample in the database.
@@ -16,6 +18,7 @@ const (
 // Columns holds all SQL columns for sample fields.
 var Columns = []string{
 	FieldID,
+	FieldAge,
 	FieldName,
 }
 
@@ -30,8 +33,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// AgeValidator is a validator for the "age" field. It is called by the builders before save.
+	AgeValidator func(int) error
 	// DefaultName holds the default value on creation for the "name" field.
 	DefaultName string
-	// IDValidator is a validator for the "id" field. It is called by the builders before save.
-	IDValidator func(int) error
 )

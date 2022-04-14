@@ -27,6 +27,19 @@ func (su *SampleUpdate) Where(ps ...predicate.Sample) *SampleUpdate {
 	return su
 }
 
+// SetAge sets the "age" field.
+func (su *SampleUpdate) SetAge(i int) *SampleUpdate {
+	su.mutation.ResetAge()
+	su.mutation.SetAge(i)
+	return su
+}
+
+// AddAge adds i to the "age" field.
+func (su *SampleUpdate) AddAge(i int) *SampleUpdate {
+	su.mutation.AddAge(i)
+	return su
+}
+
 // SetName sets the "name" field.
 func (su *SampleUpdate) SetName(s string) *SampleUpdate {
 	su.mutation.SetName(s)
@@ -53,12 +66,18 @@ func (su *SampleUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(su.hooks) == 0 {
+		if err = su.check(); err != nil {
+			return 0, err
+		}
 		affected, err = su.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*SampleMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = su.check(); err != nil {
+				return 0, err
 			}
 			su.mutation = mutation
 			affected, err = su.sqlSave(ctx)
@@ -100,6 +119,16 @@ func (su *SampleUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (su *SampleUpdate) check() error {
+	if v, ok := su.mutation.Age(); ok {
+		if err := sample.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf(`ent: validator failed for field "Sample.age": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (su *SampleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -117,6 +146,20 @@ func (su *SampleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := su.mutation.Age(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: sample.FieldAge,
+		})
+	}
+	if value, ok := su.mutation.AddedAge(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: sample.FieldAge,
+		})
 	}
 	if value, ok := su.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
@@ -142,6 +185,19 @@ type SampleUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *SampleMutation
+}
+
+// SetAge sets the "age" field.
+func (suo *SampleUpdateOne) SetAge(i int) *SampleUpdateOne {
+	suo.mutation.ResetAge()
+	suo.mutation.SetAge(i)
+	return suo
+}
+
+// AddAge adds i to the "age" field.
+func (suo *SampleUpdateOne) AddAge(i int) *SampleUpdateOne {
+	suo.mutation.AddAge(i)
+	return suo
 }
 
 // SetName sets the "name" field.
@@ -177,12 +233,18 @@ func (suo *SampleUpdateOne) Save(ctx context.Context) (*Sample, error) {
 		node *Sample
 	)
 	if len(suo.hooks) == 0 {
+		if err = suo.check(); err != nil {
+			return nil, err
+		}
 		node, err = suo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*SampleMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = suo.check(); err != nil {
+				return nil, err
 			}
 			suo.mutation = mutation
 			node, err = suo.sqlSave(ctx)
@@ -224,6 +286,16 @@ func (suo *SampleUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (suo *SampleUpdateOne) check() error {
+	if v, ok := suo.mutation.Age(); ok {
+		if err := sample.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf(`ent: validator failed for field "Sample.age": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (suo *SampleUpdateOne) sqlSave(ctx context.Context) (_node *Sample, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -258,6 +330,20 @@ func (suo *SampleUpdateOne) sqlSave(ctx context.Context) (_node *Sample, err err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := suo.mutation.Age(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: sample.FieldAge,
+		})
+	}
+	if value, ok := suo.mutation.AddedAge(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: sample.FieldAge,
+		})
 	}
 	if value, ok := suo.mutation.Name(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
