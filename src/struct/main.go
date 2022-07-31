@@ -68,3 +68,41 @@ Max Fields Byte=%d(byte)
 		unsafe.Sizeof(os.A)+unsafe.Sizeof(os.B)+unsafe.Sizeof(os.C)+unsafe.Sizeof(os.D)+unsafe.Sizeof(os.E)+unsafe.Sizeof(os.F),
 	)
 }
+
+func (s Sample) GetDF() string {
+	return s.D + s.F
+}
+
+func GetSamples(num int) []Sample {
+	ss := make([]Sample, 0, num)
+	for i := 0; i < num; i++ {
+		ss = append(ss, Sample{
+			A: 1,
+			B: 1,
+			C: false,
+			D: "sample",
+			E: true,
+			F: "samples",
+		})
+	}
+	return ss
+}
+
+func (os OptimizedSample) GetDF() string {
+	return os.D + os.F
+}
+
+func GetOptimizedSamples(num int) []OptimizedSample {
+	oss := make([]OptimizedSample, 0, num)
+	for i := 0; i < num; i++ {
+		oss = append(oss, OptimizedSample{
+			A: 1,
+			B: 1,
+			C: false,
+			D: "sample",
+			E: true,
+			F: "samples",
+		})
+	}
+	return oss
+}
