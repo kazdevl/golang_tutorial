@@ -1,0 +1,22 @@
+syntax="proto3";
+package pb;
+option go_package="./pb";
+
+service ExampleService {
+    rpc GetCount(GetCountRequest) returns (stream GetCountResponse);
+    rpc Push(PushRequest) returns (PushResponse);
+}
+
+message GetCountRequest {
+}
+
+message GetCountResponse {
+    string message = 1;
+}
+
+message PushRequest {
+    string message = 1;
+}
+
+message PushResponse {
+}
