@@ -1,0 +1,10 @@
+{{define "slice"}}
+type {{.Name}}s []*{{.Name}}
+
+func ({{.ShortName}}s *{{.Name}}s) ToMap() map[{{.Name}}PK]*{{.Name}} {
+	m := make(map[{{.Name}}PK]*{{.Name}}, len(*{{.ShortName}}s))
+	for _, {{.ShortName}} := range *{{.ShortName}}s {
+		m[{{.ShortName}}.to{{.Name}}PK()] = {{.ShortName}}
+	}
+	return m
+}

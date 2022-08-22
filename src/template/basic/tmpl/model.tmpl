@@ -1,0 +1,73 @@
+package {{toLowerCase (Name .) }}modelrepository
+
+import (
+    "github.com/jmoiron/sqlx"
+)
+
+//go:generate mockgen -source=$GOPKG/$GOFILE -destinition=$GOPKG/mock_$GOFILE
+// 6. associated templatesの説明
+{{template "slice"}}
+
+// 1. text
+// 2. range・if
+// 3. functions
+type {{.Name}}PK struct {
+    {{range $index, $element := (Fields .)}}
+    {{if isPK $element}}
+    {{$element.Name}} {{$element.Type}}
+    {{end}}
+    {{end}}
+}
+
+// 4. 変数の説明
+func ({{ShortName .}} *{{.Name}}) to{{.Name}}PK() {{.Name}}PK {
+	return {{.Name}}PK{
+        {{range $index, $element := Fields .}}
+        {{$element.Name}}: {{ShortName .}}.{{$element.Name}}
+        {{end}}
+    }
+}
+
+type {{ .Name -}}ModelRepository struct {
+    client *sqlx.DB
+}
+
+// 5. space・Pipelineの説明
+func (r *{{.Name}}ModelRepository) Get({{ShortName .}}k {{.Name}}PK) (*{{.Name}}, error) {
+	model := new({{.Name}})
+	if err := r.client.Select(&model, `SELECT * FROM {{toLowerCase .Name}}
+        WHERE
+    {{range $index, $element := Fields .}}
+    {{if isPK $element}}
+    {{toLowerCase $element.Name}}=?
+    {{if $index ne (len $element | subOne)}}
+    AND
+    {{end}}
+    {{end}}
+    `,
+    {{range $index, $element := (Fields .)}}
+    {{if isPK $element}}
+    {{ShortName .}}k.{{$element.Name}},
+    {{end}}
+    {{end}}
+    ); err != nil {
+		return nil, err
+	}
+	return model, nil
+}
+
+// PK2つ以上ある場合に
+{{ if isMultiplePK .}}
+{{range $index, $element := Fields .}}
+{{if isPK $element}}
+{{toLowerCase $element.Name}}=?
+func (r *{{.Name}}ModelRepository) FindBy{{$element.Name}}({{toLowerCase $element.Name}} string) ({{.Name}}s, error) {
+	var models {{.Name}}s
+	if err := r.client.Select(&models, "SELECT * FROM {{toLowerCase .Name}} WHERE {{$element.Name}}=?", {{toLowerCase $element.Name}}); err != nil {
+		return nil, err
+	}
+	return models, nil
+}
+{{end}}
+{{end}}
+{{end}}
