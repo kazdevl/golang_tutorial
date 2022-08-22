@@ -73,6 +73,10 @@ func (s Sample) GetDF() string {
 	return s.D + s.F
 }
 
+func (os OptimizedSample) GetDF() string {
+	return os.D + os.F
+}
+
 func GetSamples(num int) []Sample {
 	ss := make([]Sample, 0, num)
 	for i := 0; i < num; i++ {
@@ -86,10 +90,6 @@ func GetSamples(num int) []Sample {
 		})
 	}
 	return ss
-}
-
-func (os OptimizedSample) GetDF() string {
-	return os.D + os.F
 }
 
 func GetOptimizedSamples(num int) []OptimizedSample {

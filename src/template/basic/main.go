@@ -13,7 +13,7 @@ type Sample struct {
 
 func main() {
 	sample := Sample{"Hello", 2}
-	tmpl, err := template.New("sample").Parse("A is {{.A}}. B is {{.B}}")
+	tmpl, err := template.New("sample").Parse("Aの背丈は{{.A}}. B is {{.B}}")
 	if err != nil {
 		log.Fatal(err)
 	}
