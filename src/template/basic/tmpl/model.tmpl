@@ -1,16 +1,20 @@
 package {{toLowerCase (Name .) }}modelrepository
 
+//go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
+
 import (
     "github.com/jmoiron/sqlx"
 )
 
-//go:generate mockgen -source=$GOPKG/$GOFILE -destinition=$GOPKG/mock_$GOFILE
-// 6. associated templatesの説明
-{{template "slice"}}
 
-// 1. text
-// 2. range・if
-// 3. functions
+// 3. associated templatesの説明(少し応用)
+{{template "slice" .}}
+
+// 1はMust
+// 1. text ・range
+// 1.1. space
+// 1.2. functions?
+// 1.3. if
 type {{.Name}}PK struct {
     {{range $index, $element := (Fields .)}}
     {{if isPK $element}}
@@ -19,7 +23,8 @@ type {{.Name}}PK struct {
     {{end}}
 }
 
-// 4. 変数の説明
+// 2はあれば嬉しい
+// 2. variables・functions(既存)・pipelinesの説明
 func ({{ShortName .}} *{{.Name}}) to{{.Name}}PK() {{.Name}}PK {
 	return {{.Name}}PK{
         {{range $index, $element := Fields .}}
@@ -32,7 +37,6 @@ type {{ .Name -}}ModelRepository struct {
     client *sqlx.DB
 }
 
-// 5. space・Pipelineの説明
 func (r *{{.Name}}ModelRepository) Get({{ShortName .}}k {{.Name}}PK) (*{{.Name}}, error) {
 	model := new({{.Name}})
 	if err := r.client.Select(&model, `SELECT * FROM {{toLowerCase .Name}}
@@ -56,10 +60,8 @@ func (r *{{.Name}}ModelRepository) Get({{ShortName .}}k {{.Name}}PK) (*{{.Name}}
 	return model, nil
 }
 
-// PK2つ以上ある場合に
-{{ if isMultiplePK .}}
 {{range $index, $element := Fields .}}
-{{if isPK $element}}
+{{if isSK $element}}
 {{toLowerCase $element.Name}}=?
 func (r *{{.Name}}ModelRepository) FindBy{{$element.Name}}({{toLowerCase $element.Name}} string) ({{.Name}}s, error) {
 	var models {{.Name}}s
