@@ -15,8 +15,6 @@ type {{$upperName}} struct {
     {{- end}}
 }
 
-{{template "slice" $base}}
-
 type {{$upperName}}PK struct {
     {{- range $index, $element := .Fields}}
     {{- if $element.IsPK}}
@@ -34,6 +32,8 @@ func ({{$shortHandName}} *{{$upperName}}) to{{$upperName}}PK() {{$upperName}}PK 
         {{- end}}
     }
 }
+
+{{template "slice" $base}}
 
 type {{$upperName}}ModelRepository struct {
     client *sqlx.DB

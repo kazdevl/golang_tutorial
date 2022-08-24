@@ -14,16 +14,6 @@ type Like struct {
 	CreatedAt time.Time
 }
 
-type Likes []*Like
-
-func (ls *Likes) ToMap() map[LikePK]*Like {
-	m := make(map[LikePK]*Like, len(*ls))
-	for _, l := range *ls {
-		m[l.toLikePK()] = l
-	}
-	return m
-}
-
 type LikePK struct {
 	UserID int64
 	PostID int64
@@ -34,6 +24,16 @@ func (l *Like) toLikePK() LikePK {
 		UserID: l.UserID,
 		PostID: l.PostID,
 	}
+}
+
+type Likes []*Like
+
+func (ls *Likes) ToMap() map[LikePK]*Like {
+	m := make(map[LikePK]*Like, len(*ls))
+	for _, l := range *ls {
+		m[l.toLikePK()] = l
+	}
+	return m
 }
 
 type LikeModelRepository struct {

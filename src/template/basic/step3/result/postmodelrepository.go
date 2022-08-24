@@ -15,16 +15,6 @@ type Post struct {
 	CreatedAt time.Time
 }
 
-type Posts []*Post
-
-func (ps *Posts) ToMap() map[PostPK]*Post {
-	m := make(map[PostPK]*Post, len(*ps))
-	for _, p := range *ps {
-		m[p.toPostPK()] = p
-	}
-	return m
-}
-
 type PostPK struct {
 	ID int64
 }
@@ -33,6 +23,16 @@ func (p *Post) toPostPK() PostPK {
 	return PostPK{
 		ID: p.ID,
 	}
+}
+
+type Posts []*Post
+
+func (ps *Posts) ToMap() map[PostPK]*Post {
+	m := make(map[PostPK]*Post, len(*ps))
+	for _, p := range *ps {
+		m[p.toPostPK()] = p
+	}
+	return m
 }
 
 type PostModelRepository struct {
