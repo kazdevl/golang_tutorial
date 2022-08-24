@@ -1,4 +1,4 @@
-package usermodelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 
@@ -41,11 +41,6 @@ func (r *UserModelRepository) Get(uk UserPK) (*User, error) {
 	return model, nil
 }
 
-
-
-
-
-
 func (r *UserModelRepository) FindByName(name string) (Users, error) {
 	var models Users
 	if err := r.client.Select(&models, "SELECT * FROM user WHERE name=?", name); err != nil {
@@ -53,7 +48,3 @@ func (r *UserModelRepository) FindByName(name string) (Users, error) {
 	}
 	return models, nil
 }
-
-
-
-

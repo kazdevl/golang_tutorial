@@ -1,21 +1,19 @@
-package postmodelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 
 import (
-    "time"
+	"time"
 
-    "github.com/jmoiron/sqlx"
+	"github.com/jmoiron/sqlx"
 )
 
-
 type Post struct {
-    ID int64
-    UserID int64
-    Content string
-    CreatedAt time.Time
+	ID        int64
+	UserID    int64
+	Content   string
+	CreatedAt time.Time
 }
-
 
 type Posts []*Post
 
@@ -28,17 +26,17 @@ func (ps *Posts) ToMap() map[PostPK]*Post {
 }
 
 type PostPK struct {
-    ID int64
+	ID int64
 }
 
 func (p *Post) toPostPK() PostPK {
 	return PostPK{
-        ID: p.ID,
-    }
+		ID: p.ID,
+	}
 }
 
 type PostModelRepository struct {
-    client *sqlx.DB
+	client *sqlx.DB
 }
 
 func (r *PostModelRepository) Get(pk PostPK) (*Post, error) {
@@ -46,17 +44,12 @@ func (r *PostModelRepository) Get(pk PostPK) (*Post, error) {
 	if err := r.client.Select(&model, `SELECT * FROM post WHERE
     ID=?
     `,
-    pk.ID,
-    ); err != nil {
+		pk.ID,
+	); err != nil {
 		return nil, err
 	}
 	return model, nil
 }
-
-
-
-
-
 
 func (r *PostModelRepository) FindByUserID(userid string) (Posts, error) {
 	var models Posts
@@ -65,9 +58,3 @@ func (r *PostModelRepository) FindByUserID(userid string) (Posts, error) {
 	}
 	return models, nil
 }
-
-
-
-
-
-

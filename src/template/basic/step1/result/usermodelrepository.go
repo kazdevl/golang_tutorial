@@ -1,4 +1,4 @@
-package usermodelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 

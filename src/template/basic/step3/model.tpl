@@ -1,4 +1,4 @@
-package {{.Name}}modelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 
@@ -63,8 +63,8 @@ func (r *{{$upperName}}ModelRepository) Get({{$shortHandName}}k {{$upperName}}PK
 	return model, nil
 }
 
-{{range $index, $element := .Fields}}
-{{if $element.IsSK}}
+{{- range $index, $element := .Fields}}
+{{- if $element.IsSK}}
 {{$lowerName := toLowerCase $element.Name}}
 func (r *{{$upperName}}ModelRepository) FindBy{{$element.Name}}({{$lowerName}} string) ({{$upperName}}s, error) {
 	var models {{$upperName}}s
@@ -73,5 +73,5 @@ func (r *{{$upperName}}ModelRepository) FindBy{{$element.Name}}({{$lowerName}} s
 	}
 	return models, nil
 }
-{{end}}
-{{end}}
+{{- end}}
+{{- end}}

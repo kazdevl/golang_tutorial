@@ -1,11 +1,9 @@
-package {{.Name}}modelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 
 import (
     "time"
-
-    "github.com/jmoiron/sqlx"
 )
 
 type {{toUpperCase .Name}} struct {

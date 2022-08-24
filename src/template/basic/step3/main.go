@@ -96,4 +96,5 @@ func main() {
 		}
 		f.Close()
 	}
+	// 4. make lintの実行で自動生成ファイルの整形と検証を行う
 }

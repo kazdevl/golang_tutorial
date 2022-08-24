@@ -1,20 +1,18 @@
-package usermodelrepository
+package modelrepository
 
 //go:generate mockgen -destinition=mock_$GOFILE -package=$GOPACKAGE
 
 import (
-    "time"
+	"time"
 
-    "github.com/jmoiron/sqlx"
+	"github.com/jmoiron/sqlx"
 )
 
-
 type User struct {
-    ID int64
-    Name string
-    LastLoginDate time.Time
+	ID            int64
+	Name          string
+	LastLoginDate time.Time
 }
-
 
 type Users []*User
 
@@ -27,17 +25,17 @@ func (us *Users) ToMap() map[UserPK]*User {
 }
 
 type UserPK struct {
-    ID int64
+	ID int64
 }
 
 func (u *User) toUserPK() UserPK {
 	return UserPK{
-        ID: u.ID,
-    }
+		ID: u.ID,
+	}
 }
 
 type UserModelRepository struct {
-    client *sqlx.DB
+	client *sqlx.DB
 }
 
 func (r *UserModelRepository) Get(uk UserPK) (*User, error) {
@@ -45,17 +43,12 @@ func (r *UserModelRepository) Get(uk UserPK) (*User, error) {
 	if err := r.client.Select(&model, `SELECT * FROM user WHERE
     ID=?
     `,
-    uk.ID,
-    ); err != nil {
+		uk.ID,
+	); err != nil {
 		return nil, err
 	}
 	return model, nil
 }
-
-
-
-
-
 
 func (r *UserModelRepository) FindByName(name string) (Users, error) {
 	var models Users
@@ -64,7 +57,3 @@ func (r *UserModelRepository) FindByName(name string) (Users, error) {
 	}
 	return models, nil
 }
-
-
-
-
