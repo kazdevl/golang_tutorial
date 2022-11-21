@@ -11,4 +11,4 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: 1.19
-      - run: go run ./main.go
+      - run: cd src && go run .cicd/dagger/main.go
