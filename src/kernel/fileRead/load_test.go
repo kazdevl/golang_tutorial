@@ -1,13 +1,14 @@
 package fileRead_test
 
 import (
-	"app/kernel/fileRead"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/kazdevl/golang_tutorial/kernel/fileRead"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -1,11 +1,12 @@
 package main
 
 import (
-	"app/network/gRPC/server-side-streaming/pb"
-	"app/network/gRPC/server-side-streaming/server/service"
 	"fmt"
 	"log"
 	"net"
+
+	"github.com/kazdevl/golang_tutorial/network/gRPC/server-side-streaming/pb"
+	"github.com/kazdevl/golang_tutorial/network/gRPC/server-side-streaming/server/service"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

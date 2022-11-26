@@ -1,6 +1,10 @@
 package target
 
-import "app/staticlint/target/repository"
+import (
+	"fmt"
+
+	"github.com/kazdevl/golang_tutorial/staticlint/typechecks/target/repository"
+)
 
 type BlogService struct {
 	userModelRepository repository.IFUserModelRepository
@@ -15,4 +19,8 @@ func NewBlogService(
 		userModelRepository: umr,
 		postModelRepository: pmr,
 	}
+}
+
+func (s *BlogService) Sample() {
+	fmt.Print("Hello World")
 }

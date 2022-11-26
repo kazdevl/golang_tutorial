@@ -1,4 +1,4 @@
-module app
+module github.com/kazdevl/golang_tutorial
 
 go 1.18
 

@@ -1,9 +1,10 @@
 package basic_test
 
 import (
-	parallel "app/test/parallel/basic"
 	"fmt"
 	"testing"
+
+	parallel "github.com/kazdevl/golang_tutorial/test/parallel/basic"
 )
 
 func TestSingle(t *testing.T) {

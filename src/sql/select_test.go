@@ -1,11 +1,12 @@
 package selectquery_test
 
 import (
-	"app/selectquery"
 	"database/sql"
 	"fmt"
 	"os"
 	"testing"
+
+	selectquery "github.com/kazdevl/golang_tutorial/sql"
 
 	"github.com/joho/godotenv"
 )

@@ -1,8 +1,9 @@
 package main
 
 import (
-	"app/err/handling/perror"
 	"log"
+
+	"github.com/kazdevl/golang_tutorial/err/handling/perror"
 
 	"github.com/pkg/errors"
 )

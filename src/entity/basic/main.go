@@ -1,10 +1,11 @@
 package main
 
 import (
-	"app/entity/basic/ent"
 	"context"
 	"fmt"
 	"log"
+
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent"
 )
 
 func main() {

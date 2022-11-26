@@ -1,12 +1,13 @@
 package concurrency_test
 
 import (
-	"app/concurrency"
 	"database/sql"
 	"fmt"
 	"os"
 	"runtime"
 	"testing"
+
+	concurrency "github.com/kazdevl/golang_tutorial/concurrency/sql"
 
 	"github.com/joho/godotenv"
 )

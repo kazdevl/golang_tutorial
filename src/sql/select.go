@@ -1,8 +1,9 @@
 package selectquery
 
 import (
-	"app/selectquery/domain"
 	"database/sql"
+
+	"github.com/kazdevl/golang_tutorial/sql/domain"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -62,7 +63,7 @@ func (so *SelectOperator) SelectMaxIncomeWithUnderAvgAgeAndGenderGroup() ([]inco
 	if err != nil {
 		return []incomeWithGenderGroup{}, err
 	}
-	
+
 	var data []incomeWithGenderGroup
 	for rows.Next() {
 		var obj incomeWithGenderGroup
@@ -74,19 +75,19 @@ func (so *SelectOperator) SelectMaxIncomeWithUnderAvgAgeAndGenderGroup() ([]inco
 	return data, nil
 }
 
-type departmentInfo struct{
-	name string
-	maxIncome int 
+type departmentInfo struct {
+	name      string
+	maxIncome int
 	avgIncome float64
 }
 
 // JOINは, table同士を結合するもの
 func (so *SelectOperator) SelectDepartmentInfo() ([]departmentInfo, error) { //relationshipで対象の名前を持つdepartmentの情報(従業員関連情報も含む)を取得する
 	rows, err := so.DB.Query(
-		"SELECT d.name, MAX(e.income) as max_icome, AVG(e.income) as avg_income "+
-		"FROM department AS d " + 
-		"INNER JOIN employee AS e ON d.id = e.department_id " +
-		"GROUP BY e.department_id")// 内部結合後にグループ化している
+		"SELECT d.name, MAX(e.income) as max_icome, AVG(e.income) as avg_income " +
+			"FROM department AS d " +
+			"INNER JOIN employee AS e ON d.id = e.department_id " +
+			"GROUP BY e.department_id") // 内部結合後にグループ化している
 	if err != nil {
 		return []departmentInfo{}, err
 	}
@@ -102,15 +103,15 @@ func (so *SelectOperator) SelectDepartmentInfo() ([]departmentInfo, error) { //r
 	return data, nil
 }
 
-type employeeInfo struct{
+type employeeInfo struct {
 	domain.Employee
 	DepartmentName string
 }
 
 func (so *SelectOperator) SelectEmployeeInfo() ([]employeeInfo, error) {
 	rows, err := so.DB.Query(
-		"SELECT e.id, e.name, income, age, gender, department_id, d.name "+
-		"FROM employee AS e INNER JOIN department AS d on e.department_id = d.id")
+		"SELECT e.id, e.name, income, age, gender, department_id, d.name " +
+			"FROM employee AS e INNER JOIN department AS d on e.department_id = d.id")
 	if err != nil {
 		return []employeeInfo{}, err
 	}
@@ -120,10 +121,10 @@ func (so *SelectOperator) SelectEmployeeInfo() ([]employeeInfo, error) {
 		var row employeeInfo
 		if err := rows.Scan(
 			&row.ID,
-			&row.Name, 
+			&row.Name,
 			&row.Income,
-			&row.Age, 
-			&row.Gender, 
+			&row.Age,
+			&row.Gender,
 			&row.DepartmentID,
 			&row.DepartmentName,
 		); err != nil {
@@ -133,6 +134,7 @@ func (so *SelectOperator) SelectEmployeeInfo() ([]employeeInfo, error) {
 	}
 	return data, nil
 }
+
 // 把握しておくと便利なもの
 // 1. JOIN(INNER・OUTER(RIGHT・LEFT))
 // 2. GROUP BY...同じデータをグループとして集約する

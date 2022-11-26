@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 
-	"app/entity/basic/ent/migrate"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/migrate"
 
-	"app/entity/basic/ent/sample"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/sample"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"

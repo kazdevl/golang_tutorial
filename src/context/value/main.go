@@ -1,10 +1,11 @@
 package main
 
 import (
-	"app/context/value/econtext"
-	"app/context/value/rcontext"
 	"context"
 	"fmt"
+
+	"github.com/kazdevl/golang_tutorial/context/value/econtext"
+	"github.com/kazdevl/golang_tutorial/context/value/rcontext"
 )
 
 func main() {

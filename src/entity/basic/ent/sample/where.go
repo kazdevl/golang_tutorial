@@ -3,7 +3,7 @@
 package sample
 
 import (
-	"app/entity/basic/ent/predicate"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

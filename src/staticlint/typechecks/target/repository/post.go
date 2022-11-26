@@ -3,8 +3,9 @@ package repository
 //go:generate mockgen -source=$GOFILE -destination=mock_$GOFILE -package=$GOPACKAGE
 
 import (
+	"github.com/kazdevl/golang_tutorial/staticlint/typechecks/target/model"
+
 	"github.com/jmoiron/sqlx"
-	"github.com/kazdevl/presentation_materials/20221202/target/model"
 )
 
 type IFPostModelRepository interface {

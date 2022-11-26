@@ -1,10 +1,11 @@
 package sorting_algorithm_test
 
 import (
-	sa "app/test/parallel/sorting_algorithm"
 	"math/rand"
 	"testing"
 	"time"
+
+	sa "github.com/kazdevl/golang_tutorial/algorizm/sorting_algorithm"
 )
 
 func makeRandomOrderList(length int) []int {

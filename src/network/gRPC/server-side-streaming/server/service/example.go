@@ -1,10 +1,11 @@
 package service
 
 import (
-	"app/network/gRPC/server-side-streaming/pb"
 	"context"
 	"fmt"
 	"log"
+
+	"github.com/kazdevl/golang_tutorial/network/gRPC/server-side-streaming/pb"
 )
 
 var messageQueue = make(chan string)

@@ -1,10 +1,11 @@
 package entwrapper
 
 import (
-	"app/entity/basic/ent"
-	"app/entity/basic/model/db"
 	"context"
 	"log"
+
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent"
+	"github.com/kazdevl/golang_tutorial/entity/basic/model/db"
 )
 
 func NewClient() *ent.Client {

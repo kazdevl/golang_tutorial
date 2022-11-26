@@ -1,8 +1,9 @@
 package pool_test
 
 import (
-	"app/sync/pool"
 	"testing"
+
+	"github.com/kazdevl/golang_tutorial/sync/pool"
 )
 
 func Benchmark_CreateListEach(b *testing.B) {

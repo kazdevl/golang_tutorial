@@ -1,9 +1,10 @@
 package mock_test
 
 import (
-	mock "app/test/manualmock"
 	"errors"
 	"testing"
+
+	mock "github.com/kazdevl/golang_tutorial/test/manualmock"
 )
 
 type MockSQL struct{}

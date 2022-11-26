@@ -1,13 +1,14 @@
 package basic_test
 
 import (
-	"app/network/basic"
 	"encoding/json"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
 	"testing"
+
+	"github.com/kazdevl/golang_tutorial/network/basic"
 )
 
 func Test_HelloHandler(t *testing.T) {

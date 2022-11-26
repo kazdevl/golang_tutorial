@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"app/db/models"
+	"github.com/kazdevl/golang_tutorial/db/models"
 
 	_ "github.com/lib/pq"
 	"github.com/volatiletech/null/v8"

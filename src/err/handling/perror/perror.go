@@ -1,8 +1,9 @@
 package perror
 
 import (
-	"app/err/handling/constant"
 	"fmt"
+
+	"github.com/kazdevl/golang_tutorial/err/handling/constant"
 
 	"github.com/friendsofgo/errors"
 	"google.golang.org/genproto/googleapis/rpc/code"

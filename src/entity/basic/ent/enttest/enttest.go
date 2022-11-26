@@ -3,10 +3,10 @@
 package enttest
 
 import (
-	"app/entity/basic/ent"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent"
 	"context"
 	// required by schema hooks.
-	_ "app/entity/basic/ent/runtime"
+	_ "github.com/kazdevl/golang_tutorial/entity/basic/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

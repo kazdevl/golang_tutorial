@@ -3,7 +3,7 @@
 package hook
 
 import (
-	"app/entity/basic/ent"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent"
 	"context"
 	"fmt"
 )

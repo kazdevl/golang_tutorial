@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"app/entity/basic/ent/predicate"
-	"app/entity/basic/ent/sample"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/predicate"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/sample"
 	"context"
 	"errors"
 	"fmt"

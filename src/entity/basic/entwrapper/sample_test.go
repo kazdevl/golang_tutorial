@@ -1,12 +1,13 @@
 package entwrapper_test
 
 import (
-	"app/entity/basic/ent"
-	"app/entity/basic/ent/enttest"
-	"app/entity/basic/entwrapper"
-	"app/entity/basic/model/db"
 	"context"
 	"testing"
+
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/enttest"
+	"github.com/kazdevl/golang_tutorial/entity/basic/entwrapper"
+	"github.com/kazdevl/golang_tutorial/entity/basic/model/db"
 
 	_ "github.com/mattn/go-sqlite3"
 

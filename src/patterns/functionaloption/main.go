@@ -1,8 +1,9 @@
 package main
 
 import (
-	"app/patterns/functionaloption/option"
 	"fmt"
+
+	"github.com/kazdevl/golang_tutorial/patterns/functionaloption/option"
 )
 
 func main() {

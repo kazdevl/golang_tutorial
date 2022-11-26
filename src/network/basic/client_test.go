@@ -1,11 +1,12 @@
 package basic_test
 
 import (
-	"app/network/basic"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/kazdevl/golang_tutorial/network/basic"
 )
 
 func Test_Client(t *testing.T) {

@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"app/entity/basic/ent/sample"
-	"app/entity/basic/ent/schema"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/sample"
+	"github.com/kazdevl/golang_tutorial/entity/basic/ent/schema"
 )
 
 // The init function reads all schema descriptors with runtime code
