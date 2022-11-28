@@ -31,6 +31,7 @@ require (
 	github.com/panjf2000/ants v1.3.0
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.11.0
+	golang.org/x/tools v0.1.10
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1
