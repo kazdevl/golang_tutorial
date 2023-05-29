@@ -1,23 +1,19 @@
 version: '3'
 services:
-    web:
-        build: ./src
-        ports:
-            - 8080:8080
-        volumes:
-            - ./src:/go/src/app
-        depends_on:
-            - db
-        tty: true
+    # web:
+        # build: ./src
+        # ports:
+        #     - 8080:8080
+        # volumes:
+        #     - ./src:/go/src/app
+        # depends_on:
+        #     - db
+        # tty: true
     db:
-        build: ./mysql
+        image: mysql
         container_name: tutorial_db_container
-        env_file: ./.env
         environment:
-            MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-            MYSQL_DATABASE: $MYSQL_DATABASE
-            MYSQL_USER: $MYSQL_USER
-            MYSQL_PASSWORD: $MYSQL_PASSWORD
+            MYSQL_ROOT_PASSWORD: admin
         ports:
             - 3306:3306
         tty: true

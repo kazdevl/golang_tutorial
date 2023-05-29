@@ -1,0 +1,5 @@
+schema_diff:
+    atlas schema diff --from "mysql://root:admin@localhost:3306/golang_tutorial" --dev-url "docker://mysql/8/golang_tutorial" --to "file://definition.sql"
+
+schem_apply:
+    atlas schema apply --url "mysql://root:admin@localhost:3306/golang_tutorial" --dev-url "docker://mysql/8/golang_tutorial" --to "file://definition.sql"
