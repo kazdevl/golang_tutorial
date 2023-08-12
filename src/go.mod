@@ -1,6 +1,6 @@
 module github.com/kazdevl/golang_tutorial
 
-go 1.18
+go 1.21
 
 require (
 	github.com/friendsofgo/errors v0.9.2
@@ -27,9 +27,12 @@ require (
 
 require (
 	dagger.io/dagger v0.4.0
+	github.com/casbin/casbin/v2 v2.69.1
 	github.com/jmoiron/sqlx v1.3.5
+	github.com/labstack/echo/v5 v5.0.0-20220201181537-ed2888cfa198
 	github.com/panjf2000/ants v1.3.0
 	github.com/pkg/errors v0.9.1
+	github.com/pocketbase/pocketbase v0.16.3
 	go.mongodb.org/mongo-driver v1.11.0
 	golang.org/x/tools v0.9.1
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
@@ -66,7 +69,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.14.10 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.19.0 // indirect
 	github.com/aws/smithy-go v1.13.5 // indirect
-	github.com/casbin/casbin/v2 v2.69.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/containerd/containerd v1.6.9 // indirect
@@ -113,7 +115,6 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
-	github.com/labstack/echo/v5 v5.0.0-20220201181537-ed2888cfa198 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
@@ -124,8 +125,8 @@ require (
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799 // indirect
+	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pocketbase/dbx v1.10.0 // indirect
-	github.com/pocketbase/pocketbase v0.16.3 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rs/zerolog v1.28.0 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
@@ -150,7 +151,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.11.2 // indirect
 	go.opentelemetry.io/proto/otlp v0.19.0 // indirect
 	gocloud.dev v0.29.0 // indirect
-	golang.org/x/exp v0.0.0-20230124195608-d38c7dcee874 // indirect
+	golang.org/x/exp/shiny v0.0.0-20230811145659-89c5cff77bcb // indirect
 	golang.org/x/image v0.7.0 // indirect
 	golang.org/x/mobile v0.0.0-20230301163155-e0f57694e12c // indirect
 	golang.org/x/mod v0.10.0 // indirect
