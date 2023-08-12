@@ -32,7 +32,7 @@ func FuzzReverse(f *testing.F) {
 		rev := Reverse(orig)
 		doubleRev := Reverse(rev)
 		if orig != doubleRev {
-			t.Errorf("Reverse(%q) == %q, want %q", orig, doubleRev, orig)
+			t.Errorf("Reverse(%q) == %q, want %q, Doubule Reverse=%q", orig, rev, orig, doubleRev)
 		}
 		if utf8.ValidString(orig) && !utf8.ValidString(rev) {
 			t.Errorf("Reverse(%q) == %q, which is invalid UTF-8", orig, rev)
