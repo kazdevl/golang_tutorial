@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 
 	"github.com/go-faker/faker/v4"
 	"github.com/go-faker/faker/v4/pkg/options"
@@ -10,7 +11,8 @@ import (
 
 type Target struct {
 	Name     string
-	Age      int `faker:"boundary_start=30, boundary_end=50"`
+	Kind     string `faker:"fixed"`
+	Age      int    `faker:"boundary_start=30, boundary_end=50"`
 	Features []feature
 }
 
@@ -18,7 +20,14 @@ type feature struct {
 	Value string
 }
 
+func CreateCutomGenerator() {
+	faker.AddProvider("fixed", func(v reflect.Value) (interface{}, error) {
+		return "sample", nil
+	})
+}
+
 func main() {
+	CreateCutomGenerator()
 	for range 3 {
 		var t Target
 		_ = faker.FakeData(&t, options.WithRandomMapAndSliceMinSize(1), options.WithRandomMapAndSliceMaxSize(3))
