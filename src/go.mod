@@ -28,6 +28,7 @@ require (
 require (
 	dagger.io/dagger v0.4.0
 	github.com/casbin/casbin/v2 v2.69.1
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo/v5 v5.0.0-20220201181537-ed2888cfa198
 	github.com/mmcdole/gofeed v1.3.0
@@ -104,7 +105,6 @@ require (
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
-	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
