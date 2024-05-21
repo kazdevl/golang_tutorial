@@ -1,11 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log/slog"
 	"os"
+
+	"github.com/kazdevl/golang_tutorial/logger/slog/custom"
 )
+
+var LevelNotice = slog.Level(2)
 
 // TODO 独自のハンドラーの作成 & 独自のレベルの追加
 func main() {
@@ -59,12 +64,52 @@ func main() {
 	logger.Warn("Warn message",
 		slog.String("username", "admin"),
 	)
+
+	fmt.Println("********************")
+	logger = textLogger(false)
+	logger.Log(ctx, LevelNotice, "Notice message", slogAttr())
+	logger = customLevelHandler()
+	logger.Log(ctx, LevelNotice, "Notice message", slogAttr())
+
+	fmt.Println("********************")
+	notifier := &OSStdOutNotifier{
+		b: new(bytes.Buffer),
+	}
+	handler := custom.NewCustomHandler(os.Stdout, custom.CustomHandlerOptions{
+		Indent: 2,
+		SlogOpts: slog.HandlerOptions{
+			Level: slog.LevelInfo,
+		},
+		Notifier: notifier,
+	})
+	logger = slog.New(handler)
+
+	ctx = custom.SetRequestID(ctx)
+	logger.InfoContext(ctx, "Info message", slogAttr())
+	logger.WarnContext(ctx, "Warn message", slogAttr())
+	logger.ErrorContext(ctx, "Error message", slogAttr())
+
+	fmt.Println("")
+	fmt.Println("Buffer: ", notifier.String())
+}
+
+type OSStdOutNotifier struct {
+	b *bytes.Buffer
+}
+
+func (n *OSStdOutNotifier) Notify(ctx context.Context, msg string) error {
+	_, err := n.b.WriteString(msg)
+	return err
+}
+
+func (n *OSStdOutNotifier) String() string {
+	return n.b.String()
 }
 
 func jsonLogger(isEnableSource bool) *slog.Logger {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: isEnableSource,
-		Level:     slog.LevelWarn,
+		Level:     slog.LevelInfo,
 	}))
 	return logger
 }
@@ -72,7 +117,7 @@ func jsonLogger(isEnableSource bool) *slog.Logger {
 func textLogger(isEnableSource bool) *slog.Logger {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: isEnableSource,
-		Level:     slog.LevelWarn,
+		Level:     slog.LevelInfo,
 	}))
 	return logger
 }
@@ -91,6 +136,24 @@ func fileoutputLogger(fileName string, level slog.Level) (*slog.Logger, func()) 
 	return logger, func() {
 		f.Close()
 	}
+}
+
+func customLevelHandler() *slog.Logger {
+	opts := &slog.HandlerOptions{
+		Level: LevelNotice,
+		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key != slog.LevelKey {
+				return a
+			}
+			if level := a.Value.Any().(slog.Level); level == LevelNotice {
+				a.Value = slog.StringValue("NOTICE")
+			}
+
+			return a
+		},
+	}
+
+	return slog.New(slog.NewTextHandler(os.Stdout, opts))
 }
 
 func sanitizeHandlerOpt(isEnableSource bool) *slog.HandlerOptions {
@@ -118,7 +181,7 @@ func childLoggerPattern2(logger *slog.Logger) *slog.Logger {
 }
 
 func slogAttr() slog.Attr {
-	// v := slog.Group("setting_content", slog.Bool("is_setting", true), slog.String("env", "local"), slog.Int("port", 8080))
-	v := slog.String("default", "sample1")
+	v := slog.Group("setting_content", slog.Bool("is_setting", true), slog.String("env", "local"), slog.Int("port", 8080))
+	// v := slog.String("default", "sample1")
 	return v
 }

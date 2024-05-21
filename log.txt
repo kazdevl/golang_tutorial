@@ -1,1 +1,1 @@
-{"time":"2024-05-20T09:27:48.523117938+09:00","level":"WARN","msg":"Warn message","password":"123456","username":"admin"}
+{"time":"2024-05-21T08:43:09.17767825+09:00","level":"WARN","msg":"Warn message","username":"admin"}
