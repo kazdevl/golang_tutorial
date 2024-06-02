@@ -9,11 +9,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Check dir
-        run: |
-          ls -laG
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Go Build Cache for Docker
+        uses: actions/cache@v4
+        with:
+          path: go-build-cache
+          key: ${{ runner.os }}-go-build-cache-${{ hashFiles('**/go.sum') }}
+
+      - name: inject go-build-cache into docker
+        uses: reproducible-containers/buildkit-cache-dance@4b2444fec0c0fb9dbf175a96c094720a692ef810 # v2.1.4
+        with:
+          cache-source: go-build-cache
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
