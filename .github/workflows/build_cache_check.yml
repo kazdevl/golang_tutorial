@@ -9,12 +9,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: check dir
+        run: |
+          ls -laG
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: src/Dockerfile
+          context: ./src/Dockerfile
           push: false
           tags: sample:v0.0.1
           cache-from: type=registry,ref=sample:buildcache
