@@ -7,7 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: build
-        run: |
-          cd src && docker build -t sample .
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: src/Dockerfile
+          push: false
+          tags: sample:v0.0.1
+          cache-from: type=registry,ref=sample:buildcache
+          cache-to: type=registry,ref=sample:buildcache,mode=max
