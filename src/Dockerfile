@@ -5,7 +5,7 @@ COPY go.mod go.sum /workdir/
 RUN go mod download
 
 COPY . /workdir
-RUN go build -ldflags "-s -w" -o app ./context/value/.
+RUN go build -ldflags "-s -w" -o app ./cicd/cache/heavy/.
 
 FROM debian:bookworm-slim
 COPY --from=build /workdir/app /app
