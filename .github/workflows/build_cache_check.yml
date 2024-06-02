@@ -1,0 +1,13 @@
+name: build_cache_check
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          cd src && docker build -t sample .
