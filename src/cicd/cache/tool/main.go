@@ -36,12 +36,12 @@ func createFile(id int) {
 	file.WriteString("import \"fmt\"\n\n")
 
 	file.WriteString(fmt.Sprintf("\nfunc CallGreet%d() {\n", id))
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 750; i++ {
 		file.WriteString(fmt.Sprintf("fn_%d_%d()\n", id, i))
 	}
 	file.WriteString("}\n")
 
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 750; i++ {
 		file.WriteString(fmt.Sprintf("func fn_%d_%d() {\n", id, i))
 		file.WriteString(fmt.Sprintf("\tfmt.Println(\"Hello, World%d!\")\n", i))
 		file.WriteString("}\n")
