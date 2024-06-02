@@ -10,7 +10,7 @@ import (
 func main() {
 	greet.CallGreetAll()
 
-	fmt.Println(heavyProcess(1000))
+	fmt.Println(heavyProcess(110))
 }
 
 func heavyProcess(n int) float64 {
