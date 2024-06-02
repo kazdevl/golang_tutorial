@@ -10,6 +10,7 @@ import (
 func main() {
 	greet.CallGreetAll()
 
+	fmt.Println("Cache will update")
 	fmt.Println(heavyProcess(100))
 }
 
