@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	greet.CallGreet()
+	greet.CallGreetAll()
 
-	fmt.Println(heavyProcess(100))
+	fmt.Println(heavyProcess(1000))
 }
 
 func heavyProcess(n int) float64 {
