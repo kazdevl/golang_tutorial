@@ -24,5 +24,3 @@ func main() {
 		fmt.Println("rctx is nil")
 	}
 }
-
-func tryToUse()
