@@ -20,5 +20,5 @@ jobs:
           context: ./src
           push: false
           tags: sample:v0.0.1
-          cache-from: type=registry,ref=sample:buildcache
-          cache-to: type=registry,ref=sample:buildcache,mode=max
+          cache-from: type=gha,ref=sample:buildcache
+          cache-to: type=gha,ref=sample:buildcache,mode=max
