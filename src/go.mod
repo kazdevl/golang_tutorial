@@ -164,6 +164,8 @@ require (
 	go.opentelemetry.io/otel/sdk v1.19.0 // indirect
 	go.opentelemetry.io/otel/trace v1.22.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
+	go.uber.org/multierr v1.10.0 // indirect
+	go.uber.org/zap v1.27.0 // indirect
 	gocloud.dev v0.29.0 // indirect
 	golang.org/x/exp/shiny v0.0.0-20230811145659-89c5cff77bcb // indirect
 	golang.org/x/image v0.7.0 // indirect
