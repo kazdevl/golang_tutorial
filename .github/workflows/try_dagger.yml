@@ -2,7 +2,8 @@ name: try_dagger
 
 on:
   push:
-
+    paths:
+      - 'src/cicd/dagger/**'
 jobs:
   build:
     runs-on: ubuntu-latest
