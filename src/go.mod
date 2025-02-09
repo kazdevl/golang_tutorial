@@ -1,6 +1,8 @@
 module github.com/kazdevl/golang_tutorial
 
-go 1.22
+go 1.23
+
+toolchain go1.23.6
 
 require (
 	github.com/friendsofgo/errors v0.9.2
@@ -21,7 +23,7 @@ require (
 	github.com/volatiletech/strmangle v0.0.1
 	go.uber.org/dig v1.13.0
 	golang.org/x/sync v0.3.0
-	golang.org/x/sys v0.21.0
+	golang.org/x/sys v0.30.0
 	gopkg.in/go-playground/validator.v9 v9.31.0
 )
 
@@ -81,6 +83,9 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.19.0 // indirect
 	github.com/aws/smithy-go v1.22.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
+	github.com/chromedp/cdproto v0.0.0-20250208210249-fa305b1d5b8a // indirect
+	github.com/chromedp/chromedp v0.12.1 // indirect
+	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/containerd/containerd v1.7.11 // indirect
 	github.com/containerd/continuity v0.4.2 // indirect
@@ -109,6 +114,9 @@ require (
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
+	github.com/gobwas/httphead v0.1.0 // indirect
+	github.com/gobwas/pool v0.2.1 // indirect
+	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -125,9 +133,11 @@ require (
 	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/jezek/xgb v1.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
+	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
