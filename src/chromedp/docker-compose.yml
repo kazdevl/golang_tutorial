@@ -1,0 +1,12 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./src
+      dockerfile: ./src/chromedp
+    ports:
+      - 8544:8544
+  chrome_headless:
+    image: chromedp/headless-shell
+    ports:
+      - 9222:9222
