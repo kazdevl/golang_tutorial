@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"log"
 	"net/http"
 )
@@ -19,7 +20,8 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprintf(w, indexHTML, string(buf))
+		escapedJSON := html.EscapeString(string(buf))
+		fmt.Fprintf(w, indexHTML, escapedJSON)
 	})
 	http.ListenAndServe(":8544", mux)
 }
