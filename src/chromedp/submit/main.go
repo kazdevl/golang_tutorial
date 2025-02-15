@@ -29,7 +29,7 @@ func submit(urlStr, sel, q string, res *string) chromedp.Tasks {
 		chromedp.WaitVisible(sel),
 		chromedp.SendKeys(sel, q),
 		chromedp.Submit(sel),
-		chromedp.WaitVisible(`//*[contains(., 'respository results')]`),
+		chromedp.WaitVisible(`//*[contains(., 'repository results')]`),
 		chromedp.Text(`(//*//ul[contains(@class, "repo-list")]/li[1]//p)[1]`, res),
 	}
 }
